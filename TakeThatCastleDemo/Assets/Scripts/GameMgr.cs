@@ -7,6 +7,7 @@ public class GameMgr : TMonoSingleton<GameMgr>
 {
     private void Start()
     {
-        
+        gameObject.AddComponent<InputMgr>();
+        gameObject.AddComponent<SoldierSpawnMgr>();
     }
 }

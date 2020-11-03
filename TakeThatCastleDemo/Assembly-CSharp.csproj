@@ -508,8 +508,10 @@
     <Compile Include="Assets\Quick\Engine\Utils\QEncryption.cs" />
     <Compile Include="Assets\Quick\Engine\Utils\QIPValidator.cs" />
     <Compile Include="Assets\Quick\Engine\Utils\QReflection.cs" />
+    <Compile Include="Assets\Scripts\EventId.cs" />
     <Compile Include="Assets\Scripts\GameMgr.cs" />
     <Compile Include="Assets\Scripts\InputMgr.cs" />
+    <Compile Include="Assets\Scripts\SoldierSpawnMgr.cs" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTween\DOTween43.xml" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTween\DOTween50.xml" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTween\DOTween46.xml" />

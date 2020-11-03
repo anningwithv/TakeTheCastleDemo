@@ -8,7 +8,7 @@ public class InputMgr : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-
+            SoldierSpawnMgr.S.SpawnSoldier();
         }
     }
 }
