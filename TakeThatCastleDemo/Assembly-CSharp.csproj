@@ -508,6 +508,8 @@
     <Compile Include="Assets\Quick\Engine\Utils\QEncryption.cs" />
     <Compile Include="Assets\Quick\Engine\Utils\QIPValidator.cs" />
     <Compile Include="Assets\Quick\Engine\Utils\QReflection.cs" />
+    <Compile Include="Assets\Scripts\CheckPoint.cs" />
+    <Compile Include="Assets\Scripts\CheckPointMgr.cs" />
     <Compile Include="Assets\Scripts\EventId.cs" />
     <Compile Include="Assets\Scripts\GameMgr.cs" />
     <Compile Include="Assets\Scripts\InputMgr.cs" />
