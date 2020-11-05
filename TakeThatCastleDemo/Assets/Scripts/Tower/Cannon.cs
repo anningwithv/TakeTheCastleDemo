@@ -7,6 +7,15 @@ public class Cannon : MonoBehaviour {
 	public Transform target;
     public Transform bulletPos;
     public float time;
+    public float attackRange = 5;
+    public float attackInterval = 3;
+    public float hp = 20;
+
+    private float m_FindTargetInterval = 1f;
+    private float m_FindTargetTime = 0f;
+
+    private float m_AttackTime = 0f;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -14,6 +23,51 @@ public class Cannon : MonoBehaviour {
             LaunchBullet();
         }
 
+        m_FindTargetTime += Time.deltaTime;
+        if (m_FindTargetTime > m_FindTargetInterval)
+        {
+            m_FindTargetTime = 0f;
+
+            FindTarget();
+        }
+
+        m_AttackTime += Time.deltaTime;
+        if (m_AttackTime > attackInterval)
+        {
+            m_AttackTime = 0f;
+
+            if(target != null)
+                LaunchBullet();
+        }
+    }
+
+    private void FindTarget()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, 1 << LayerMask.NameToLayer("Role"));
+
+        if (colliders.Length > 0)
+        {
+            foreach (var item in colliders)
+            {
+                RoleController role = item.gameObject.GetComponent<RoleController>();
+                if (role != this && role.Status != RoleStatus.Die && role.Camp != RoleCamp.None && role.Camp == RoleCamp.Red)
+                {
+                    target = role.transform;
+
+                    break;
+                }
+            }
+        }
+    }
+
+    public void OnAttacked(float damage)
+    {
+        hp -= damage;
+
+        if (hp <= 0)
+        {
+            Debug.Log("Cannon damaged");
+        }
     }
     private void LaunchBullet()
     {

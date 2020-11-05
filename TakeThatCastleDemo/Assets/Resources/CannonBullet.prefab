@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 420317958500653972}
   - component: {fileID: 420317958500653975}
   - component: {fileID: 420317958500653974}
+  - component: {fileID: 8161710621952143163}
   m_Layer: 0
   m_Name: CannonBullet
   m_TagString: Untagged
@@ -110,3 +111,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8161710621952143163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420317958500653969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05eedeb814289d49ab3fd9112d8af58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

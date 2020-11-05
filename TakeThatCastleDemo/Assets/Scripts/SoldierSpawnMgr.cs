@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Qarth;
+using System.Linq;
 
 public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
 {
@@ -104,9 +105,15 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
 
     public void RemoveRole(RoleController role)
     {
-        if(m_RoleList.Contains(role))
+        if (m_RoleList.Contains(role))
         {
             m_RoleList.Remove(role);
         }
+    }
+
+    public List<RoleController> GetRoleControllerInRange(Vector3 centerPos, float range, RoleCamp roleCamp)
+    {
+        List<RoleController> roleList = m_RoleList.Where(i => i.Camp == roleCamp && Vector3.Distance(centerPos, i.transform.position) < range).ToList();
+        return roleList;
     }
 }
