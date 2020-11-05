@@ -39,7 +39,6 @@ public class RoleController : MonoBehaviour
     private int m_RoleID;
 
     private NavMeshAgent m_NavMeshAgent;
-    private NavMeshObstacle m_NavMeshObstacle;
     private Collider m_Collider;
     private Animator m_Animator;
     private Camera m_Camera;
@@ -54,22 +53,19 @@ public class RoleController : MonoBehaviour
 
     public Action<RoleController> IdleCallBack;
     public Action<RoleController> RunOverCallBack;
+    public Action<RoleController> InitializeCallBack;
 
     public int RoleID { get => m_RoleID; }
     public RoleStatus Status { get => m_Status; }
     public RoleCamp Camp { get => m_Camp; }
     public Vector3 MoveTargetPosition { get => m_MoveTargetPosition; }
 
-    //private bool m_IsGet;
-    //private float m_Delay = 0.5f;
-
     // Start is called before the first frame update
     void Awake()
     {
         m_Camera = Camera.main;
         m_NavMeshAgent = GetComponent<NavMeshAgent>();
-        m_NavMeshObstacle = GetComponent<NavMeshObstacle>();
-        m_NavMeshObstacle.enabled = false;
+        m_NavMeshAgent.enabled = false;
         m_Animator = GetComponentInChildren<Animator>();
         m_Collider = GetComponent<Collider>();
         m_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -81,7 +77,9 @@ public class RoleController : MonoBehaviour
 
     private void Start()
     {
-        LoadMaterial();
+        m_NavMeshAgent.enabled = true;
+
+        InitializeCallBack?.Invoke(this);
     }
 
     private void FixedUpdate()
@@ -153,7 +151,7 @@ public class RoleController : MonoBehaviour
         }
     }
 
-    private void LoadMaterial()
+    public void LoadMaterial()
     {
         switch (m_Camp)
         {
@@ -357,30 +355,15 @@ public class RoleController : MonoBehaviour
             return;
         }
 
-        SetNavActive(true, () =>
-        {
-            m_NavMeshAgent.SetDestination(targetPostion);
-            RunAnimation();
-        });
+        m_NavMeshAgent.SetDestination(targetPostion);
+        RunAnimation();
+
+        SetNavActive(true, null);
     }
 
     private void SetNavActive(bool active, Action act)
     {
-        m_NavMeshObstacle.enabled = !active;
-        SetNavActive1(active);
         act?.Invoke();
-        //if (active)
-        //{
-        //    DOTween.To((x) => { }, 0, 1, 0.2f).OnComplete(() =>
-        //    {
-        //        SetNavActive1(true);
-        //        act?.Invoke();
-        //    });
-        //}
-        //else
-        //{
-        //    SetNavActive1(false);
-        //}
     }
 
     private void SetNavActive1(bool active)
@@ -462,11 +445,14 @@ public class RoleController : MonoBehaviour
     public void Die()
     {
         m_Collider.enabled = false;
-        SetNavActive(false, null);
+        m_NavMeshAgent.enabled = false;
+        
         IdleCallBack = null;
         RunOverCallBack = null;
+        InitializeCallBack = null;
 
         DieAnimation();
+
         SoldierSpawnMgr.S.RemoveRole(this);
         Destroy(gameObject, m_DieTime);
     }

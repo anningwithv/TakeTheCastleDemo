@@ -20,20 +20,28 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
         go.transform.position = CheckPointMgr.S.GetSoldierSpawnPos();
         RoleController role = go.GetComponent<RoleController>();
         m_RoleList.Add(role);
-        role.SetRoleID(m_RoleList.Count);
-        role.SetRoleCamp(RoleCamp.Red);
-        role.SetRoleHP(200);
+
         role.IdleCallBack = IdleCallBack;
         role.RunOverCallBack = RunOverCallBack;
-
-        m_SoldierTargetPos = CheckPointMgr.S.GetSoldierTargetPos();
-        StartCoroutine(SetMoveTargetPos(role, m_SoldierTargetPos));
+        role.InitializeCallBack = InitializeCallBack;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(0, 0, 1, 0.3f);
         Gizmos.DrawWireSphere(m_SoldierTargetPos, m_MoveRandomRadius);
+    }
+
+    private void InitializeCallBack(RoleController role)
+    {
+        //Debug.LogError(role.RoleID + " -- InitializeCallBack");
+        role.SetRoleID(m_RoleList.Count);
+        role.SetRoleCamp(RoleCamp.Red);
+        role.SetRoleHP(200);
+        role.LoadMaterial();
+
+        m_SoldierTargetPos = CheckPointMgr.S.GetSoldierTargetPos();
+        StartCoroutine(SetMoveTargetPos(role, m_SoldierTargetPos));
     }
 
     private void IdleCallBack(RoleController role)
