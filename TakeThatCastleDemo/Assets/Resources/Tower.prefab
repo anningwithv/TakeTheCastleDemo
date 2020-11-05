@@ -49,7 +49,8 @@ MonoBehaviour:
     type: 3}
   target: {fileID: 0}
   bulletPos: {fileID: 4419663563133414260}
-  time: 1
+  time: 2
+  attackRange: 10
 --- !u!1 &6267754663288381374
 GameObject:
   m_ObjectHideFlags: 0

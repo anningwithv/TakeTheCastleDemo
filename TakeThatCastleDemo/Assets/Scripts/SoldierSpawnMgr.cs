@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Qarth;
+using System.Linq;
 
 public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
 {
@@ -75,5 +76,11 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
             }
         }
         return result;
+    }
+
+    public List<RoleController> GetRoleControllerInRange(Vector3 centerPos, float range, RoleCamp roleCamp)
+    {
+        List<RoleController> roleList = m_RoleList.Where(i => i.Camp == roleCamp && Vector3.Distance(centerPos, i.transform.position) < range).ToList();
+        return roleList;
     }
 }
