@@ -34,6 +34,8 @@ public class RoleController : MonoBehaviour
     [SerializeField] private float m_FindTargetRadius = 10f;
     [SerializeField] private float m_DieTime = 5f;
     [SerializeField] private float m_IdleTime = 2f;
+    [SerializeField] private float m_RunLengthTime = 0.5f;
+    [SerializeField] private float m_RunLength = 0.3f;
     private int m_RoleID;
 
     private NavMeshAgent m_NavMeshAgent;
@@ -42,17 +44,21 @@ public class RoleController : MonoBehaviour
     private Animator m_Animator;
     private Camera m_Camera;
     private SkinnedMeshRenderer m_SkinnedMeshRenderer;
+    private Rigidbody m_Rigidbody;
 
     private bool m_HasPath;
     private float m_IdleTimeTemp;
+    private float m_RunLengthTimeTemp;
 
     private Vector3 m_MoveTargetPosition;
 
     public Action<RoleController> IdleCallBack;
+    public Action<RoleController> RunOverCallBack;
 
     public int RoleID { get => m_RoleID; }
     public RoleStatus Status { get => m_Status; }
     public RoleCamp Camp { get => m_Camp; }
+    public Vector3 MoveTargetPosition { get => m_MoveTargetPosition; }
 
     //private bool m_IsGet;
     //private float m_Delay = 0.5f;
@@ -67,6 +73,7 @@ public class RoleController : MonoBehaviour
         m_Animator = GetComponentInChildren<Animator>();
         m_Collider = GetComponent<Collider>();
         m_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        m_Rigidbody = GetComponent<Rigidbody>();
         m_IdleTimeTemp = m_IdleTime;
 
         SetStatus(RoleStatus.Idle);
@@ -100,10 +107,12 @@ public class RoleController : MonoBehaviour
                 IdleTimeUpdate();
                 break;
             case RoleStatus.SetRun:
+                RunAnimationUpdate();
                 SetRunStatusUpdate();
                 FindTargetUpdate();
                 break;
             case RoleStatus.AutoRun:
+                RunAnimationUpdate();
                 AutoRunStatusUpdate();
                 break;
             case RoleStatus.Attack:
@@ -119,6 +128,8 @@ public class RoleController : MonoBehaviour
     {
         Gizmos.color = new Color(1, 0, 0, 0.3f);
         Gizmos.DrawWireSphere(transform.position, m_FindTargetRadius / 2);
+
+        Gizmos.DrawLine(transform.position, m_MoveTargetPosition);
     }
 
     private void InputTestUpdate()
@@ -168,6 +179,8 @@ public class RoleController : MonoBehaviour
             case RoleStatus.None:
                 break;
             case RoleStatus.Idle:
+                m_Animator.speed = 1;
+                m_RunLengthTimeTemp = 0;
                 m_IdleTimeTemp = m_IdleTime;
                 IdleAniamtion();
                 SetNavActive(false, null);
@@ -179,6 +192,7 @@ public class RoleController : MonoBehaviour
                 StartMove(m_MoveTargetPosition);
                 break;
             case RoleStatus.Attack:
+                m_Animator.speed = 1;
                 StartAttack();
                 break;
             case RoleStatus.Die:
@@ -197,8 +211,37 @@ public class RoleController : MonoBehaviour
 
             if (!m_HasPath)
             {
+                RunOverCallBack?.Invoke(this);
                 SetStatus(RoleStatus.Idle);
             }
+        }
+    }
+
+    private void RunAnimationUpdate()
+    {
+        float length = m_NavMeshAgent.velocity.magnitude;
+
+        float animationSpeed = Mathf.Clamp(length / m_NavMeshAgent.speed, 0f, 1);
+        m_Animator.speed = animationSpeed;
+
+        if (length <= m_RunLength)
+        {
+            m_RunLengthTimeTemp += Time.deltaTime;
+            if (m_RunLengthTimeTemp >= m_RunLengthTime)
+            {
+                if (m_NavMeshAgent.isOnNavMesh)
+                {
+                    m_NavMeshAgent.isStopped = true;
+                    m_NavMeshAgent.ResetPath();
+                    RunOverCallBack?.Invoke(this);
+                    SetStatus(RoleStatus.Idle);
+                }
+                m_RunLengthTimeTemp = 0;
+            }
+        }
+        else
+        {
+            m_RunLengthTimeTemp = 0;
         }
     }
 
@@ -420,9 +463,10 @@ public class RoleController : MonoBehaviour
         m_Collider.enabled = false;
         SetNavActive(false, null);
         IdleCallBack = null;
+        RunOverCallBack = null;
 
         DieAnimation();
-
+        SoldierSpawnMgr.S.RemoveRole(this);
         Destroy(gameObject, m_DieTime);
     }
 

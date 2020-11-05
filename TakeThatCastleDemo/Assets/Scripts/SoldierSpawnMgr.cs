@@ -7,8 +7,10 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
 {
     private List<RoleController> m_RoleList = new List<RoleController>();
 
-    private List<Vector3> m_TargetPos = new List<Vector3>();
+    [SerializeField] private List<Vector3> m_TargetPos = new List<Vector3>();
 
+    private float m_MoveRandomRadius = 10f;
+    private Vector3 m_SoldierTargetPos = Vector3.zero;
     public void SpawnSoldier()
     {
         //TODO:
@@ -21,25 +23,48 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
         role.SetRoleCamp(RoleCamp.Red);
         role.SetRoleHP(200);
         role.IdleCallBack = IdleCallBack;
+        role.RunOverCallBack = RunOverCallBack;
 
-        StartCoroutine(SetMoveTargetPos(role, CheckPointMgr.S.GetSoldierTargetPos()));
+        m_SoldierTargetPos = CheckPointMgr.S.GetSoldierTargetPos();
+        StartCoroutine(SetMoveTargetPos(role, m_SoldierTargetPos));
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0, 0, 1, 0.3f);
+        Gizmos.DrawWireSphere(m_SoldierTargetPos, m_MoveRandomRadius);
     }
 
     private void IdleCallBack(RoleController role)
     {
-        StartCoroutine(SetMoveTargetPos(role, CheckPointMgr.S.GetSoldierTargetPos()));
+        //Debug.LogError(role.RoleID + " -- IdleCallBack");
+        m_SoldierTargetPos = CheckPointMgr.S.GetSoldierTargetPos();
+        StartCoroutine(SetMoveTargetPos(role, m_SoldierTargetPos));
+    }
+
+    private void RunOverCallBack(RoleController role)
+    {
+        //Debug.LogError(role.RoleID + " -- RunOverCallBack -- " + role.MoveTargetPosition);
+        if (m_TargetPos.Contains(role.MoveTargetPosition))
+        {
+            m_TargetPos.Remove(role.MoveTargetPosition);
+        }
     }
 
     private IEnumerator SetMoveTargetPos(RoleController role, Vector3 getPos)
     {
+        if(m_TargetPos.Count >= 20)
+        {
+            m_TargetPos.Clear();
+        }
+
         Vector3 targetPos = Vector3.zero;
 
-        float radius = 2f;
         bool result = true;
 
         while (result)
         {
-            Vector2 randomF = Random.insideUnitCircle * radius;
+            Vector2 randomF = Random.insideUnitCircle * m_MoveRandomRadius;
             targetPos = new Vector3(getPos.x + randomF.x, getPos.y, getPos.z + randomF.y);
             bool canUse = IsPosCanUse(role, targetPos);
             if (canUse)
@@ -61,7 +86,7 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
 
     private bool IsPosCanUse(RoleController role, Vector3 pos)
     {
-        float judgeDistance = 0.2f;
+        float judgeDistance = 2f;
         bool result = true;
 
         foreach (var item in m_TargetPos)
@@ -75,5 +100,13 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
             }
         }
         return result;
+    }
+
+    public void RemoveRole(RoleController role)
+    {
+        if(m_RoleList.Contains(role))
+        {
+            m_RoleList.Remove(role);
+        }
     }
 }
