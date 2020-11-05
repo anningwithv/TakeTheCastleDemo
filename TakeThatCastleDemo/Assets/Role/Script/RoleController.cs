@@ -115,6 +115,12 @@ public class RoleController : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.3f);
+        Gizmos.DrawWireSphere(transform.position, m_FindTargetRadius / 2);
+    }
+
     private void InputTestUpdate()
     {
         if (Input.GetMouseButtonDown(0))
