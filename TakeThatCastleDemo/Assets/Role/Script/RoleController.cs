@@ -221,7 +221,7 @@ public class RoleController : MonoBehaviour
     {
         float length = m_NavMeshAgent.velocity.magnitude;
 
-        float animationSpeed = Mathf.Clamp(length / m_NavMeshAgent.speed, 0f, 1);
+        float animationSpeed = Mathf.Clamp(length / m_NavMeshAgent.speed, 0.2f, 1);
         m_Animator.speed = animationSpeed;
 
         if (length <= m_RunLength)
