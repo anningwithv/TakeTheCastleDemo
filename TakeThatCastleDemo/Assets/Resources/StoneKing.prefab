@@ -836,8 +836,8 @@ GameObject:
   - component: {fileID: 1598521030377712462}
   - component: {fileID: 1598521030377712457}
   - component: {fileID: 9041980624721853075}
-  - component: {fileID: 1598521030377712456}
   - component: {fileID: 7772451057647532007}
+  - component: {fileID: 1598521030377712456}
   m_Layer: 8
   m_Name: StoneKing
   m_TagString: Untagged
@@ -919,6 +919,20 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0.05, z: 0}
   m_TimeToStationary: 0.5
+--- !u!136 &7772451057647532007
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598521030377712463}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.02
+  m_Height: 0.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!114 &1598521030377712456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,20 +951,6 @@ MonoBehaviour:
   m_Life: 50
   m_AttackDistance: 7
   m_FindTargetRadius: 10
---- !u!136 &7772451057647532007
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598521030377712463}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.02
-  m_Height: 0.1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!1 &1598521030377712465
 GameObject:
   m_ObjectHideFlags: 0

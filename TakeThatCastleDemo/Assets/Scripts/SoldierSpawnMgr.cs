@@ -13,12 +13,20 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
     {
         //TODO:
         Log.i("Spawn solider...");
-        GameObject go = GameObject.Instantiate(Resources.Load("StoneKing") as GameObject);
+        GameObject go = GameObject.Instantiate(Resources.Load("Character") as GameObject);
         go.transform.position = CheckPointMgr.S.GetSoldierSpawnPos();
         RoleController role = go.GetComponent<RoleController>();
         m_RoleList.Add(role);
         role.SetRoleID(m_RoleList.Count);
+        role.SetRoleCamp(RoleCamp.Red);
+        role.SetRoleHP(200);
+        role.IdleCallBack = IdleCallBack;
 
+        StartCoroutine(SetMoveTargetPos(role, CheckPointMgr.S.GetSoldierTargetPos()));
+    }
+
+    private void IdleCallBack(RoleController role)
+    {
         StartCoroutine(SetMoveTargetPos(role, CheckPointMgr.S.GetSoldierTargetPos()));
     }
 
