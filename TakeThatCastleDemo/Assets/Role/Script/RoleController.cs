@@ -196,6 +196,7 @@ public class RoleController : MonoBehaviour
                 StartAttack();
                 break;
             case RoleStatus.Die:
+                m_Animator.speed = 1;
                 Die();
                 break;
             default:
