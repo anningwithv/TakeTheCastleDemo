@@ -6,6 +6,27 @@ public class CheckPoint : MonoBehaviour
 {
     public int index;
 
+    [SerializeField] private List<RoleController> m_RoleList = new List<RoleController>();
+    [SerializeField] private bool m_IsEnd;
+
+    private void Awake()
+    {
+        foreach (var item in m_RoleList)
+        {
+            item.DieCallBack = DieCallBack;
+            item.LoadMaterial();
+        }
+    }
+
+    private void Update()
+    {
+        if (!m_IsEnd && m_RoleList.Count == 0)
+        {
+            m_IsEnd = true;
+            CheckPointMgr.S.OnCheckPointTriggered(this);
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -14,8 +35,14 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //TODO:Check triggered by our soldier
 
-        CheckPointMgr.S.OnCheckPointTriggered(this);
+    }
+
+    private void DieCallBack(RoleController role)
+    {
+        if(m_RoleList.Contains(role))
+        {
+            m_RoleList.Remove(role);
+        }
     }
 }

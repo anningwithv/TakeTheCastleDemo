@@ -12,6 +12,13 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
 
     private float m_MoveRandomRadius = 10f;
     private Vector3 m_SoldierTargetPos = Vector3.zero;
+
+
+    public override void OnSingletonInit()
+    {
+        base.OnSingletonInit();
+    }
+
     public void SpawnSoldier()
     {
         //TODO:

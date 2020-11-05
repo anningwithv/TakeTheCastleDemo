@@ -54,6 +54,7 @@ public class RoleController : MonoBehaviour
     public Action<RoleController> IdleCallBack;
     public Action<RoleController> RunOverCallBack;
     public Action<RoleController> InitializeCallBack;
+    public Action<RoleController> DieCallBack;
 
     public int RoleID { get => m_RoleID; }
     public RoleStatus Status { get => m_Status; }
@@ -420,6 +421,8 @@ public class RoleController : MonoBehaviour
 
     private void StartHurt()
     {
+        //Debug.LogError(gameObject.name + " -- StartHurt");
+
         if (m_Target != null)
         {
             m_Target.Hurt(m_AttackHurt);
@@ -454,6 +457,7 @@ public class RoleController : MonoBehaviour
         DieAnimation();
 
         SoldierSpawnMgr.S.RemoveRole(this);
+        DieCallBack?.Invoke(this);
         Destroy(gameObject, m_DieTime);
     }
 
