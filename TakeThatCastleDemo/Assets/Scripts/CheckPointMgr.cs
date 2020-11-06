@@ -17,15 +17,15 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
 
     public void OnCheckPointTriggered(CheckPoint checkPoint)
     {
-        if (checkPoint.index > m_CurCheckPoint.index)
+        if (checkPoint == checkPointList[checkPointList.Count - 1])
         {
-            m_CurCheckPoint = checkPoint;
+            Debug.LogError("Game win");
         }
         else
         {
-            if (checkPoint == checkPointList.LastOrDefault())
+            if (checkPoint.index > m_CurCheckPoint.index)
             {
-                Log.i("Game win");
+                m_CurCheckPoint = checkPoint;
             }
         }
     }
