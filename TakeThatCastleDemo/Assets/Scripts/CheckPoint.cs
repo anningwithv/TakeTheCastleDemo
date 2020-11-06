@@ -9,7 +9,7 @@ public class CheckPoint : MonoBehaviour
     [SerializeField] private List<RoleController> m_RoleList = new List<RoleController>();
     [SerializeField] private bool m_IsEnd;
 
-    private void Awake()
+    private void Start()
     {
         foreach (var item in m_RoleList)
         {
