@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: ec9e82b36dbc8cb48b9b01752fb96bdb
+guid: 2b6a35b626767ed42a6c24ddcdcf277a
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
-      74: 1827226128182048838
-    second: Take 001
+      74: -203655887218126122
+    second: Idle1
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -21,10 +21,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: Event StartHurt has a time (1.909674) outside the clip's
-      valid range (0.000000..1.091667). It will never be firedEvent AttackEnd has
-      a time (4.112621) outside the clip's valid range (0.000000..1.091667). It will
-      never be fired
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -38,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
-      takeName: Take 001
+      name: Idle1
+      takeName: mixamo.com
       internalID: 0
-      firstFrame: 1
-      lastFrame: 24.009998
+      firstFrame: 0
+      lastFrame: 220
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -61,21 +58,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.3851444
-        functionName: StartHurt
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.82943606
-        functionName: AttackEnd
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

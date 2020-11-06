@@ -18,11 +18,15 @@ public class CannonBullet : MonoBehaviour
             {
                 return;
             }
+            else
+            {
+                if(target.Camp == RoleCamp.Red)
+                {
+                    List<RoleController> redRoleList = SoldierSpawnMgr.S.GetRoleControllerInRange(transform.position, damageRange, RoleCamp.Red);
+                    redRoleList.ForEach(i => i.Hurt(damage));
+                    Destroy(gameObject);
+                }
+            }
         }
-
-        List<RoleController> redRoleList = SoldierSpawnMgr.S.GetRoleControllerInRange(transform.position, damageRange, RoleCamp.Red);
-        redRoleList.ForEach(i => i.Hurt(damage));
-
-        Destroy(gameObject);
     }
 }
