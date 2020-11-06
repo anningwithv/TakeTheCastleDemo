@@ -3860,7 +3860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Status: 0
   m_Camp: 2
-  m_HP: 50
+  m_HP: 100
   bulletPrefab: {fileID: 420317958500653969, guid: 1033d01ab40b29f4eaa95cca59ca4dfd,
     type: 3}
   target: {fileID: 0}

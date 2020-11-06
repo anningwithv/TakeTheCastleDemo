@@ -9,13 +9,13 @@ public class TargetBase : MonoBehaviour
     [SerializeField] protected RoleCamp m_Camp;
     [SerializeField] protected int m_HP = 50;
 
-    protected int m_TargetID;
+    protected int m_ID;
 
     public Action<TargetBase> DieCallBack;
 
     public RoleStatus Status { get => m_Status; }
     public RoleCamp Camp { get => m_Camp; }
-    public int TargetID { get => m_TargetID; }
+    public int ID { get => m_ID; }
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +41,7 @@ public class TargetBase : MonoBehaviour
 
     public void SetTargetID(int id)
     {
-        m_TargetID = id;
+        m_ID = id;
     }
 
     public virtual void Hurt(int value)

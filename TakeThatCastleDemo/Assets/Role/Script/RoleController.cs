@@ -97,6 +97,7 @@ public class RoleController : TargetBase
                 break;
             case RoleStatus.Idle:
                 FindTargetUpdate();
+                IdleFindTargetUpdate();
                 IdleTimeUpdate();
                 break;
             case RoleStatus.SetRun:
@@ -313,6 +314,32 @@ public class RoleController : TargetBase
             }
         }
     }
+
+    private void IdleFindTargetUpdate()
+    {
+        if(m_Camp == RoleCamp.Blue)
+        {
+            return;
+        }
+
+        if (m_Target == null)
+        {
+            CheckPoint point = CheckPointMgr.S.TargetCheckPoint;
+            if (point != null)
+            {
+                TargetBase target = point.GetRandomTarget(RoleCamp.Blue);
+                if (target != null)
+                {
+                    //Debug.LogError(m_ID + " -- " + target.gameObject.name);
+                    m_Target = target;
+
+                    m_MoveTargetPosition = m_Target.transform.position;
+                    SetStatus(RoleStatus.AutoRun);
+                }
+            }
+        }
+    }
+
 
     private void StartAttack()
     {

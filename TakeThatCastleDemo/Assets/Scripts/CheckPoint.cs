@@ -45,4 +45,24 @@ public class CheckPoint : MonoBehaviour
             m_RoleList.Remove(role);
         }
     }
+
+    public TargetBase GetRandomTarget(RoleCamp camp)
+    {
+        List<TargetBase> tempList = new List<TargetBase>();
+        foreach (var item in m_RoleList)
+        {
+            if (item.Status != RoleStatus.Die && item.Camp == camp)
+            {
+                tempList.Add(item);
+            }
+        }
+
+        if (tempList.Count == 0)
+        {
+            return null;
+        }
+
+        return tempList[Random.Range(0, tempList.Count - 1)];
+    }
+
 }
