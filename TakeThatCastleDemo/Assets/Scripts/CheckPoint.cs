@@ -6,7 +6,7 @@ public class CheckPoint : MonoBehaviour
 {
     public int index;
 
-    [SerializeField] private List<RoleController> m_RoleList = new List<RoleController>();
+    [SerializeField] private List<TargetBase> m_RoleList = new List<TargetBase>();
     [SerializeField] private bool m_IsEnd;
 
     private void Start()
@@ -38,7 +38,7 @@ public class CheckPoint : MonoBehaviour
 
     }
 
-    private void DieCallBack(RoleController role)
+    private void DieCallBack(TargetBase role)
     {
         if(m_RoleList.Contains(role))
         {

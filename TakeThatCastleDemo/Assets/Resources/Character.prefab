@@ -120,11 +120,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73df4c12969c6844b65220fbf2ba0d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Camp: 0
   m_Status: 0
+  m_Camp: 0
+  m_HP: 50
   m_Target: {fileID: 0}
   m_AttackHurt: 10
-  m_HP: 50
   m_AttackDistance: 4
   m_FindTargetRadius: 12
   m_DieTime: 5
@@ -1077,10 +1077,20 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7dd6e2ffb1b6c5a44b0d174217de7ad3, type: 2}
+    - target: {fileID: -377103488588294581, guid: 82fb331881cb0a344924f582190b0910,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 82fb331881cb0a344924f582190b0910,
         type: 3}
       propertyPath: m_Name
       value: Fight_Arms_Sword_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 82fb331881cb0a344924f582190b0910,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5952895997564089098, guid: 82fb331881cb0a344924f582190b0910,
         type: 3}

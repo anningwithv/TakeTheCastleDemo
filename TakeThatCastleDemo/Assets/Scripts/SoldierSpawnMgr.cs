@@ -42,7 +42,7 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
     private void InitializeCallBack(RoleController role)
     {
         //Debug.LogError(role.RoleID + " -- InitializeCallBack");
-        role.SetRoleID(m_RoleList.Count);
+        role.SetTargetID(m_RoleList.Count);
         role.SetRoleCamp(RoleCamp.Red);
         role.SetRoleHP(200);
         role.LoadMaterial();

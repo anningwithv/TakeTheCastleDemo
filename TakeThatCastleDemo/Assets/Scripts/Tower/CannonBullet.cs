@@ -7,9 +7,19 @@ public class CannonBullet : MonoBehaviour
 {
     public float damageRange = 2f;
     public int damage = 5;
+    public TargetBase targetBase;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Target"))
+        {
+            TargetBase target = other.gameObject.GetComponent<TargetBase>();
+            if (target == targetBase)
+            {
+                return;
+            }
+        }
+
         List<RoleController> redRoleList = SoldierSpawnMgr.S.GetRoleControllerInRange(transform.position, damageRange, RoleCamp.Red);
         redRoleList.ForEach(i => i.Hurt(damage));
 
