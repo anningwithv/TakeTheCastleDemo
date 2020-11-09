@@ -361,38 +361,38 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween50">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween50.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTweenPro">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTweenEditor">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
     </Reference>
     <Reference Include="Log">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Log.dll</HintPath>
     </Reference>
-    <Reference Include="DOTweenProEditor">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTweenPro/Editor/DOTweenProEditor.dll</HintPath>
-    </Reference>
     <Reference Include="DemiLib">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween43">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween43.dll</HintPath>
     </Reference>
     <Reference Include="DemiEditor">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DemiLib/Core/Editor/DemiEditor.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween43.dll</HintPath>
+    </Reference>
     <Reference Include="DOTween46">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenProEditor">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTweenPro/Editor/DOTweenProEditor.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>

@@ -508,19 +508,29 @@
     <Compile Include="Assets\Quick\Engine\Utils\QEncryption.cs" />
     <Compile Include="Assets\Quick\Engine\Utils\QIPValidator.cs" />
     <Compile Include="Assets\Quick\Engine\Utils\QReflection.cs" />
+    <Compile Include="Assets\Role\Script\RoleController.cs" />
+    <Compile Include="Assets\Scripts\CameraRotator.cs" />
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
     <Compile Include="Assets\Scripts\CheckPointMgr.cs" />
     <Compile Include="Assets\Scripts\EventId.cs" />
     <Compile Include="Assets\Scripts\GameMgr.cs" />
     <Compile Include="Assets\Scripts\InputMgr.cs" />
     <Compile Include="Assets\Scripts\SoldierSpawnMgr.cs" />
+    <Compile Include="Assets\Scripts\Tower\Arrow.cs" />
+    <Compile Include="Assets\Scripts\Tower\Cannon.cs" />
+    <Compile Include="Assets\Scripts\Tower\CannonBullet.cs" />
+    <Compile Include="Assets\Scripts\UI\MainGamePanel.cs" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTween\DOTween43.xml" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTween\DOTween50.xml" />
+    <None Include="Assets\Role\Shader\TestSurfNormal.shader" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTween\DOTween46.xml" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Role\Shader\TestNormal.shader" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DemiLib\Core\DemiLib.xml" />
+    <None Include="Assets\Resources\Character\outline.shader" />
     <None Include="Assets\Qarth\Plugins\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\Qarth\Plugins\Demigiant\DOTweenPro\readme.txt" />
+    <None Include="Assets\Resources\Character\Shader\Role.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.7f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -704,15 +714,6 @@
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.7f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween50">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween50.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTweenPro">
-      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -722,11 +723,20 @@
     <Reference Include="DemiLib">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
     <Reference Include="DOTween43">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween43.dll</HintPath>
     </Reference>
     <Reference Include="DOTween46">
       <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTween/DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>D:/Work/UnityProjects/TakeThatCastleDemo/TakeThatCastleDemo/Assets/Qarth/Plugins/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.7f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
