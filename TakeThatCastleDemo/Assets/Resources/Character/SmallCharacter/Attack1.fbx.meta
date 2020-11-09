@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Take 001
+    second: Attack1
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -21,10 +21,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: Event StartHurt has a time (1.909674) outside the clip's
-      valid range (0.000000..1.091667). It will never be firedEvent AttackEnd has
-      a time (4.112621) outside the clip's valid range (0.000000..1.091667). It will
-      never be fired
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -38,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Attack1
       takeName: Take 001
       internalID: 0
       firstFrame: 1

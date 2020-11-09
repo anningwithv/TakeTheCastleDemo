@@ -9,23 +9,29 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
     public List<CheckPoint> checkPointList = new List<CheckPoint>();
 
     private CheckPoint m_CurCheckPoint = null;
+    private CheckPoint m_TargetCheckPoint = null;
+
+    public CheckPoint CurCheckPoint { get => m_CurCheckPoint; }
+    public CheckPoint TargetCheckPoint { get => m_TargetCheckPoint; }
 
     private void Start()
     {
         m_CurCheckPoint = checkPointList[0];
+        m_TargetCheckPoint = checkPointList.Where(i => i.index == m_CurCheckPoint.index + 1).FirstOrDefault();
     }
 
     public void OnCheckPointTriggered(CheckPoint checkPoint)
     {
-        if (checkPoint.index > m_CurCheckPoint.index)
+        if (checkPoint == checkPointList[checkPointList.Count - 1])
         {
-            m_CurCheckPoint = checkPoint;
+            Debug.LogError("Game win");
         }
         else
         {
-            if (checkPoint == checkPointList.LastOrDefault())
+            if (checkPoint.index > m_CurCheckPoint.index)
             {
-                Log.i("Game win");
+                m_CurCheckPoint = checkPoint;
+                m_TargetCheckPoint = checkPointList.Where(i => i.index == m_CurCheckPoint.index + 1).FirstOrDefault();
             }
         }
     }
@@ -37,10 +43,9 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
 
     public Vector3 GetSoldierTargetPos()
     {
-        CheckPoint checkPoint = checkPointList.Where(i => i.index == m_CurCheckPoint.index + 1).FirstOrDefault();
-        if (checkPoint != null)
+        if (m_TargetCheckPoint != null)
         {
-            return checkPoint.transform.position;
+            return m_TargetCheckPoint.transform.position;
         }
 
         return checkPointList.LastOrDefault().transform.position;

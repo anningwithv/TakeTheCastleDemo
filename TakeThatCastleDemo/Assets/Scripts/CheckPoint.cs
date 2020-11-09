@@ -6,10 +6,10 @@ public class CheckPoint : MonoBehaviour
 {
     public int index;
 
-    [SerializeField] private List<RoleController> m_RoleList = new List<RoleController>();
+    [SerializeField] private List<TargetBase> m_RoleList = new List<TargetBase>();
     [SerializeField] private bool m_IsEnd;
 
-    private void Awake()
+    private void Start()
     {
         foreach (var item in m_RoleList)
         {
@@ -38,11 +38,31 @@ public class CheckPoint : MonoBehaviour
 
     }
 
-    private void DieCallBack(RoleController role)
+    private void DieCallBack(TargetBase role)
     {
         if(m_RoleList.Contains(role))
         {
             m_RoleList.Remove(role);
         }
     }
+
+    public TargetBase GetRandomTarget(RoleCamp camp)
+    {
+        List<TargetBase> tempList = new List<TargetBase>();
+        foreach (var item in m_RoleList)
+        {
+            if (item.Status != RoleStatus.Die && item.Camp == camp)
+            {
+                tempList.Add(item);
+            }
+        }
+
+        if (tempList.Count == 0)
+        {
+            return null;
+        }
+
+        return tempList[Random.Range(0, tempList.Count - 1)];
+    }
+
 }

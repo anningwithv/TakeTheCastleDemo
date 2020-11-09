@@ -23,20 +23,17 @@ public enum RoleCamp
 }
 
 
-public class RoleController : MonoBehaviour
+public class RoleController : TargetBase
 {
-    [SerializeField] private RoleCamp m_Camp;
-    [SerializeField] private RoleStatus m_Status;
-    [SerializeField] private RoleController m_Target;
+    [SerializeField] private TargetBase m_Target;
     [SerializeField] private int m_AttackHurt = 10;
-    [SerializeField] private int m_HP = 50;
+
     [SerializeField] private float m_AttackDistance = 3f;
     [SerializeField] private float m_FindTargetRadius = 10f;
     [SerializeField] private float m_DieTime = 5f;
     [SerializeField] private float m_IdleTime = 2f;
     [SerializeField] private float m_RunLengthTime = 0.5f;
     [SerializeField] private float m_RunLength = 0.3f;
-    private int m_RoleID;
 
     private NavMeshAgent m_NavMeshAgent;
     private Collider m_Collider;
@@ -54,11 +51,8 @@ public class RoleController : MonoBehaviour
     public Action<RoleController> IdleCallBack;
     public Action<RoleController> RunOverCallBack;
     public Action<RoleController> InitializeCallBack;
-    public Action<RoleController> DieCallBack;
 
-    public int RoleID { get => m_RoleID; }
-    public RoleStatus Status { get => m_Status; }
-    public RoleCamp Camp { get => m_Camp; }
+
     public Vector3 MoveTargetPosition { get => m_MoveTargetPosition; }
 
     // Start is called before the first frame update
@@ -103,6 +97,7 @@ public class RoleController : MonoBehaviour
                 break;
             case RoleStatus.Idle:
                 FindTargetUpdate();
+                IdleFindTargetUpdate();
                 IdleTimeUpdate();
                 break;
             case RoleStatus.SetRun:
@@ -152,7 +147,7 @@ public class RoleController : MonoBehaviour
         }
     }
 
-    public void LoadMaterial()
+    public override void LoadMaterial()
     {
         switch (m_Camp)
         {
@@ -299,14 +294,14 @@ public class RoleController : MonoBehaviour
     {
         if (m_Target == null)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, m_FindTargetRadius, 1 << LayerMask.NameToLayer("Role"));
+            Collider[] colliders = Physics.OverlapSphere(transform.position, m_FindTargetRadius, 1 << LayerMask.NameToLayer("Target"));
 
             if (colliders.Length > 0)
             {
                 foreach (var item in colliders)
                 {
-                    RoleController role = item.gameObject.GetComponent<RoleController>();
-                    if (role != this && role.Status != RoleStatus.Die && role.Camp != RoleCamp.None && role.Camp != m_Camp)
+                    TargetBase role = item.gameObject.GetComponent<TargetBase>();
+                    if (role!= null && role != this && role.Status != RoleStatus.Die && role.Camp != RoleCamp.None && role.Camp != m_Camp)
                     {
                         m_Target = role;
 
@@ -319,6 +314,32 @@ public class RoleController : MonoBehaviour
             }
         }
     }
+
+    private void IdleFindTargetUpdate()
+    {
+        if(m_Camp == RoleCamp.Blue)
+        {
+            return;
+        }
+
+        if (m_Target == null)
+        {
+            CheckPoint point = CheckPointMgr.S.TargetCheckPoint;
+            if (point != null)
+            {
+                TargetBase target = point.GetRandomTarget(RoleCamp.Blue);
+                if (target != null)
+                {
+                    //Debug.LogError(m_ID + " -- " + target.gameObject.name);
+                    m_Target = target;
+
+                    m_MoveTargetPosition = m_Target.transform.position;
+                    SetStatus(RoleStatus.AutoRun);
+                }
+            }
+        }
+    }
+
 
     private void StartAttack()
     {
@@ -430,23 +451,10 @@ public class RoleController : MonoBehaviour
     }
     #endregion
 
-    public void SetRoleID(int id)
+    public override void Die()
     {
-        m_RoleID = id;
-    }
+        base.Die();
 
-    public void SetRoleCamp(RoleCamp camp)
-    {
-        m_Camp = camp;
-    }
-
-    public void SetRoleHP(int value)
-    {
-        m_HP = value;
-    }
-
-    public void Die()
-    {
         m_Collider.enabled = false;
         m_NavMeshAgent.enabled = false;
         
@@ -461,7 +469,7 @@ public class RoleController : MonoBehaviour
         Destroy(gameObject, m_DieTime);
     }
 
-    public void Hurt(int value)
+    public override void Hurt(int value)
     {
         m_HP -= value;
         if (m_HP <= 0)
