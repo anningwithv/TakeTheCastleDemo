@@ -32,7 +32,10 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
             {
                 m_CurCheckPoint = checkPoint;
                 m_TargetCheckPoint = checkPointList.Where(i => i.index == m_CurCheckPoint.index + 1).FirstOrDefault();
+
+                CinemachineMgr.S.OnSelectNextVirtualCamera();
             }
+
         }
     }
 
