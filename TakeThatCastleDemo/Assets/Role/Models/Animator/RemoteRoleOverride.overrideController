@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RemoteRoleOverride
+  m_Controller: {fileID: 9100000, guid: 7baac5611caeec04c8f0797464389579, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 1827226128182048838, guid: ec9e82b36dbc8cb48b9b01752fb96bdb,
+      type: 3}
+    m_OverrideClip: {fileID: -5350612602704872757, guid: 365739cf35f78a543890ed4a40edbc59,
+      type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 461d22a626bcb5542a296aa22eec1e70,
+      type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 461d22a626bcb5542a296aa22eec1e70,
+      type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 2b6a35b626767ed42a6c24ddcdcf277a,
+      type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 2b6a35b626767ed42a6c24ddcdcf277a,
+      type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 7111895efcc751347825e766fcbee6e0,
+      type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 7111895efcc751347825e766fcbee6e0,
+      type: 3}

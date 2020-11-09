@@ -33,9 +33,6 @@ public enum RoleType
 
 public class RoleController : TargetBase
 {
-    [SerializeField] private TargetBase m_Target;
-    [SerializeField] private int m_AttackHurt = 10;
-
     [SerializeField] private float m_AttackDistance = 3f;
     [SerializeField] private float m_FindTargetRadius = 10f;
     [SerializeField] private float m_DieTime = 5f;
@@ -185,6 +182,7 @@ public class RoleController : TargetBase
             case RoleStatus.None:
                 break;
             case RoleStatus.Idle:
+                m_MoveTargetPosition = Vector3.zero;
                 m_Animator.speed = 1;
                 m_RunLengthTimeTemp = 0;
                 m_IdleTimeTemp = m_IdleTime;
@@ -197,6 +195,7 @@ public class RoleController : TargetBase
                 StartMove(m_MoveTargetPosition);
                 break;
             case RoleStatus.Attack:
+                m_MoveTargetPosition = Vector3.zero;
                 m_Animator.speed = 1;
                 StartAttack();
                 break;
@@ -272,8 +271,11 @@ public class RoleController : TargetBase
                 }
                 else
                 {
-                    SetStatus(RoleStatus.AutoRun);
-                    m_MoveTargetPosition = targetPos;
+                    if (m_MoveTargetPosition != targetPos)
+                    {
+                        SetStatus(RoleStatus.AutoRun);
+                        m_MoveTargetPosition = targetPos;
+                    }
                 }
             }
         }
@@ -310,42 +312,26 @@ public class RoleController : TargetBase
             if (colliders.Length > 0)
             {
                 List<TargetBase> findRoleList = new List<TargetBase>();
-                List<TargetBase> findCannonList = new List<TargetBase>();
-
 
                 foreach (var item in colliders)
                 {
                     TargetBase role = item.gameObject.GetComponent<TargetBase>();
                     if (role!= null && role != this && role.Status != RoleStatus.Die && role.Camp != RoleCamp.None && role.Camp != m_Camp)
                     {
-                        if (role.Type == RoleType.Role)
+                        if (TargetType(role))
                         {
                             findRoleList.Add(role);
-                        }
-                        if (role.Type == RoleType.Cannon)
-                        {
-                            findCannonList.Add(role);
                         }
                     }
                 }
 
-                if (findRoleList.Count + findCannonList.Count > 0)
+                if (findRoleList.Count > 0)
                 {
                     foreach (var item in findRoleList)
                     {
                         m_Target = item;
                         m_MoveTargetPosition = m_Target.transform.position;
                         SetStatus(RoleStatus.AutoRun);
-
-                        break;
-                    }
-
-                    foreach (var item in findCannonList)
-                    {
-                        m_Target = item;
-                        m_MoveTargetPosition = m_Target.transform.position;
-                        SetStatus(RoleStatus.AutoRun);
-
                         break;
                     }
                 }
@@ -365,12 +351,11 @@ public class RoleController : TargetBase
             CheckPoint point = CheckPointMgr.S.TargetCheckPoint;
             if (point != null)
             {
-                TargetBase target = point.GetRandomTarget(RoleCamp.Blue);
+                TargetBase target = GetRandomTarget(point);
                 if (target != null)
                 {
                     //Debug.LogError(m_ID + " -- " + target.gameObject.name);
                     m_Target = target;
-
                     m_MoveTargetPosition = m_Target.transform.position;
                     SetStatus(RoleStatus.AutoRun);
                 }
@@ -378,8 +363,17 @@ public class RoleController : TargetBase
         }
     }
 
+    protected virtual bool TargetType(TargetBase target)
+    {
+        return target.Type == RoleType.Role;
+    }
 
-    private void StartAttack()
+    protected virtual TargetBase GetRandomTarget(CheckPoint point)
+    {
+        return point.GetRandomTarget(RoleCamp.Blue, new List<RoleType>() { RoleType.Role });
+    }
+
+    protected override void StartAttack()
     {
         //Debug.LogError(gameObject.name + " -- StartAttack");
 
@@ -406,21 +400,15 @@ public class RoleController : TargetBase
 
     private void StartMove(Vector3 targetPostion)
     {
-        //Debug.LogError(gameObject.name + " -- StartMove");
-
-        if (!CanStartMove())
+        if (CanStartMove() && m_NavMeshAgent.isOnNavMesh)
         {
-            //Debug.LogError(gameObject.name + " -- Can not StartMove");
-            return;
-        }
-        if(m_NavMeshAgent.isOnNavMesh)
-        {
+            //Debug.LogError(gameObject.name + " -- Move -- " + targetPostion);
             m_NavMeshAgent.SetDestination(targetPostion);
             RunAnimation();
         }
         else
         {
-            return;
+            //Debug.LogError(gameObject.name + " -- Can Not Move");
         }
     }
 
@@ -464,10 +452,15 @@ public class RoleController : TargetBase
     private void AttackEnd()
     {
         //Debug.LogError(gameObject.name + " -- AttackEnd");
-
+        
         if (m_Target != null && m_Target.Status != RoleStatus.Die)
         {
-
+            float distance = Vector3.Distance(m_Target.transform.position, transform.position);
+            if(distance > m_AttackDistance)
+            {
+                m_MoveTargetPosition = m_Target.transform.position;
+                SetStatus(RoleStatus.AutoRun);
+            }
         }
         else
         {
@@ -476,7 +469,7 @@ public class RoleController : TargetBase
         }
     }
 
-    private void StartHurt()
+    protected virtual void StartHurt()
     {
         //Debug.LogError(gameObject.name + " -- StartHurt");
 

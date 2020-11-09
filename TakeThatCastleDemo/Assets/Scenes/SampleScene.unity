@@ -163,7 +163,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RoleList.Array.data[3]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 107409232}
     - target: {fileID: 1774689231074881604, guid: cbfa8c5ff2e303041b609e344803bf2f,
         type: 3}
       propertyPath: m_RoleList.Array.data[4]
@@ -262,6 +262,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 348571864}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &107409232 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2122201848, guid: 659a7220fb93bfb4395bfa4d3483b90c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1568000182}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d563a5ef761b1364199f8bad8fb7a738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &175531068
 GameObject:
   m_ObjectHideFlags: 0
