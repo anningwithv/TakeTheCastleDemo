@@ -5,6 +5,16 @@ using UnityEngine;
 public class RemoteRoleController : RoleController
 {
     [SerializeField] private Transform m_RemoteShootTrans;
+    [SerializeField] private float m_AttackTime = 2f;
+
+    private float m_AttackTimeTemp;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        m_AttackTimeTemp = m_AttackTime;
+    }
 
     protected override void StartHurt()
     {
@@ -14,30 +24,51 @@ public class RemoteRoleController : RoleController
         RemoteBullet remote = bullet.GetComponent<RemoteBullet>();
         remote.camp = m_Camp;
         remote.hurtValue = m_AttackHurt;
-        remote.speed = 1f;
+        remote.speed = 10f;
 
         if(m_Target != null)
         {
-            Vector3 dir = (m_Target.transform.position - transform.position).normalized;
-            remote.flyDir = dir;
+            Vector3 targetPos = m_Target.transform.position + Vector3.up * 3.5f;
+            bullet.transform.forward = (targetPos - m_RemoteShootTrans.position).normalized;
         }
         else
         {
-            remote.flyDir = transform.forward;
+            bullet.transform.forward = m_RemoteShootTrans.forward;
         }
 
         Destroy(bullet, 3f);
-
-        //Debug.LogError("StartHurt");
     }
 
     protected override bool TargetType(TargetBase target)
     {
-        return target.Type == RoleType.Cannon;
+        List<RoleType> list = new List<RoleType>() { RoleType.Cannon, RoleType.Role };
+        return list.Contains(target.Type);
     }
 
     protected override TargetBase GetRandomTarget(CheckPoint point)
     {
-        return point.GetRandomTarget(RoleCamp.Blue, new List<RoleType>() { RoleType.Cannon });
+        return point.GetRandomTarget(RoleCamp.Blue, new List<RoleType>() { RoleType.Cannon, RoleType.Role });
+    }
+
+    protected override void SetAttackStatusUpdate()
+    {
+        if (m_AttackTimeTemp > 0)
+        {
+            m_AttackTimeTemp -= Time.deltaTime;
+        }
+        else
+        {
+            m_AttackTimeTemp = m_AttackTime;
+
+            StartHurt();
+            AttackEnd();
+        }
+
+        base.SetAttackStatusUpdate();
+    }
+
+    protected override void InputTestUpdate()
+    {
+        
     }
 }

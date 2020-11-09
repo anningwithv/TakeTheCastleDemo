@@ -18,7 +18,7 @@ public class RemoteBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(flyDir * speed, Space.World);
+        transform.Translate(transform.forward * Time.deltaTime * speed, Space.World);
     }
 
     private void OnTriggerEnter(Collider other)

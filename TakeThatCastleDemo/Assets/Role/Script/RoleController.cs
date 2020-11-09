@@ -42,7 +42,7 @@ public class RoleController : TargetBase
 
     private NavMeshAgent m_NavMeshAgent;
     private Collider m_Collider;
-    private Animator m_Animator;
+    protected Animator m_Animator;
     private Camera m_Camera;
     private SkinnedMeshRenderer m_SkinnedMeshRenderer;
     private Rigidbody m_Rigidbody;
@@ -61,7 +61,7 @@ public class RoleController : TargetBase
     public Vector3 MoveTargetPosition { get => m_MoveTargetPosition; }
 
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         m_Camera = Camera.main;
         m_NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -115,6 +115,7 @@ public class RoleController : TargetBase
                 AutoRunStatusUpdate();
                 break;
             case RoleStatus.Attack:
+                SetAttackStatusUpdate();
                 break;
             case RoleStatus.Die:
                 break;
@@ -135,7 +136,7 @@ public class RoleController : TargetBase
         
     }
 
-    private void InputTestUpdate()
+    protected virtual void InputTestUpdate()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -220,6 +221,11 @@ public class RoleController : TargetBase
                 SetStatus(RoleStatus.Idle);
             }
         }
+    }
+
+    protected virtual void SetAttackStatusUpdate()
+    {
+
     }
 
     private void RunAnimationUpdate()
@@ -449,7 +455,7 @@ public class RoleController : TargetBase
     #endregion
 
     #region 动画方法回调
-    private void AttackEnd()
+    protected virtual void AttackEnd()
     {
         //Debug.LogError(gameObject.name + " -- AttackEnd");
         
