@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Status: 0
   m_Camp: 0
+  m_Type: 2
   m_HP: 50
   m_Target: {fileID: 0}
   m_AttackHurt: 10
