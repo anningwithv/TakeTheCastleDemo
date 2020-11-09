@@ -7,6 +7,7 @@ public class TargetBase : MonoBehaviour
 {
     [SerializeField] protected RoleStatus m_Status;
     [SerializeField] protected RoleCamp m_Camp;
+    [SerializeField] protected RoleType m_Type;
     [SerializeField] protected int m_HP = 50;
 
     protected int m_ID;
@@ -16,6 +17,7 @@ public class TargetBase : MonoBehaviour
     public RoleStatus Status { get => m_Status; }
     public RoleCamp Camp { get => m_Camp; }
     public int ID { get => m_ID; }
+    public RoleType Type { get => m_Type; set => m_Type = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,11 @@ public class TargetBase : MonoBehaviour
     public void SetRoleCamp(RoleCamp camp)
     {
         m_Camp = camp;
+    }
+
+    public void SetRoleType(RoleType type)
+    {
+        m_Type = type;
     }
 
     public void SetTargetID(int id)

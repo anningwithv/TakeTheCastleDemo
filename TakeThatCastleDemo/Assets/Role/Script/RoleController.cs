@@ -22,6 +22,14 @@ public enum RoleCamp
     Blue
 }
 
+public enum RoleType
+{
+    None,
+    Cannon,
+    Role
+}
+
+
 
 public class RoleController : TargetBase
 {
@@ -120,10 +128,14 @@ public class RoleController : TargetBase
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1, 0, 0, 0.3f);
-        Gizmos.DrawWireSphere(transform.position, m_FindTargetRadius / 2);
+        if(m_Camp == RoleCamp.Red)
+        {
+            Gizmos.color = new Color(1, 0, 0, 0.3f);
+            Gizmos.DrawWireSphere(transform.position, m_FindTargetRadius);
 
-        Gizmos.DrawLine(transform.position, m_MoveTargetPosition);
+            Gizmos.DrawLine(transform.position, m_MoveTargetPosition);
+        }
+        
     }
 
     private void InputTestUpdate()
@@ -177,7 +189,6 @@ public class RoleController : TargetBase
                 m_RunLengthTimeTemp = 0;
                 m_IdleTimeTemp = m_IdleTime;
                 IdleAniamtion();
-                SetNavActive(false, null);
                 break;
             case RoleStatus.SetRun:
                 StartMove(m_MoveTargetPosition);
@@ -298,13 +309,40 @@ public class RoleController : TargetBase
 
             if (colliders.Length > 0)
             {
+                List<TargetBase> findRoleList = new List<TargetBase>();
+                List<TargetBase> findCannonList = new List<TargetBase>();
+
+
                 foreach (var item in colliders)
                 {
                     TargetBase role = item.gameObject.GetComponent<TargetBase>();
                     if (role!= null && role != this && role.Status != RoleStatus.Die && role.Camp != RoleCamp.None && role.Camp != m_Camp)
                     {
-                        m_Target = role;
+                        if (role.Type == RoleType.Role)
+                        {
+                            findRoleList.Add(role);
+                        }
+                        if (role.Type == RoleType.Cannon)
+                        {
+                            findCannonList.Add(role);
+                        }
+                    }
+                }
 
+                if (findRoleList.Count + findCannonList.Count > 0)
+                {
+                    foreach (var item in findRoleList)
+                    {
+                        m_Target = item;
+                        m_MoveTargetPosition = m_Target.transform.position;
+                        SetStatus(RoleStatus.AutoRun);
+
+                        break;
+                    }
+
+                    foreach (var item in findCannonList)
+                    {
+                        m_Target = item;
                         m_MoveTargetPosition = m_Target.transform.position;
                         SetStatus(RoleStatus.AutoRun);
 
@@ -355,7 +393,6 @@ public class RoleController : TargetBase
         {
             m_NavMeshAgent.isStopped = true;
             m_NavMeshAgent.ResetPath();
-            SetNavActive(false, null);
         }
 
         AttackAnimation();
@@ -376,16 +413,15 @@ public class RoleController : TargetBase
             //Debug.LogError(gameObject.name + " -- Can not StartMove");
             return;
         }
-
-        m_NavMeshAgent.SetDestination(targetPostion);
-        RunAnimation();
-
-        SetNavActive(true, null);
-    }
-
-    private void SetNavActive(bool active, Action act)
-    {
-        act?.Invoke();
+        if(m_NavMeshAgent.isOnNavMesh)
+        {
+            m_NavMeshAgent.SetDestination(targetPostion);
+            RunAnimation();
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void SetNavActive1(bool active)
