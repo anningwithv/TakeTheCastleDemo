@@ -8,7 +8,10 @@ public class TargetBase : MonoBehaviour
     [SerializeField] protected RoleStatus m_Status;
     [SerializeField] protected RoleCamp m_Camp;
     [SerializeField] protected RoleType m_Type;
+
+    [SerializeField] protected TargetBase m_Target;
     [SerializeField] protected int m_HP = 50;
+    [SerializeField] protected int m_AttackHurt = 10;
 
     protected int m_ID;
 
@@ -27,6 +30,11 @@ public class TargetBase : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    protected virtual void StartAttack()
     {
         
     }

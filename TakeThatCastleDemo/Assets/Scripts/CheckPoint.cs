@@ -46,12 +46,12 @@ public class CheckPoint : MonoBehaviour
         }
     }
 
-    public TargetBase GetRandomTarget(RoleCamp camp)
+    public TargetBase GetRandomTarget(RoleCamp camp, List<RoleType> typeList)
     {
         List<TargetBase> tempList = new List<TargetBase>();
         foreach (var item in m_RoleList)
         {
-            if (item.Status != RoleStatus.Die && item.Camp == camp)
+            if (item.Status != RoleStatus.Die && item.Camp == camp && typeList.Contains(item.Type))
             {
                 tempList.Add(item);
             }
