@@ -464,11 +464,6 @@ public class RoleController : TargetBase
         }
     }
 
-    private void SetNavActive1(bool active)
-    {
-        m_NavMeshAgent.enabled = active;
-    }
-
     #region 动画设置
     private void RunAnimation()
     {
