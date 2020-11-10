@@ -2955,6 +2955,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2122201847, guid: 659a7220fb93bfb4395bfa4d3483b90c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122201847, guid: 659a7220fb93bfb4395bfa4d3483b90c, type: 3}
+      propertyPath: m_Size.y
+      value: 5.9386535
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122201847, guid: 659a7220fb93bfb4395bfa4d3483b90c, type: 3}
+      propertyPath: m_Center.y
+      value: -0.7213497
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122201848, guid: 659a7220fb93bfb4395bfa4d3483b90c, type: 3}
+      propertyPath: attackRange
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122201848, guid: 659a7220fb93bfb4395bfa4d3483b90c, type: 3}
+      propertyPath: time
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 673566941837650303, guid: 659a7220fb93bfb4395bfa4d3483b90c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 673566941837650303, guid: 659a7220fb93bfb4395bfa4d3483b90c,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4.0419235
+      objectReference: {fileID: 0}
+    - target: {fileID: 673566941837650303, guid: 659a7220fb93bfb4395bfa4d3483b90c,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.95768106
+      objectReference: {fileID: 0}
     - target: {fileID: 6267754664336039792, guid: 659a7220fb93bfb4395bfa4d3483b90c,
         type: 3}
       propertyPath: m_Name
@@ -3015,7 +3050,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 673566941837650303, guid: 659a7220fb93bfb4395bfa4d3483b90c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 659a7220fb93bfb4395bfa4d3483b90c, type: 3}
 --- !u!114 &1590225565 stripped
 MonoBehaviour:
@@ -4272,6 +4308,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 004e347d73911e84db68255d4ece1be3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451118302482216456, guid: 004e347d73911e84db68255d4ece1be3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 004e347d73911e84db68255d4ece1be3, type: 3}
 --- !u!4 &2026483184 stripped
@@ -4563,7 +4609,7 @@ GameObject:
   - component: {fileID: 2113313478}
   - component: {fileID: 2113313477}
   - component: {fileID: 2113313476}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
