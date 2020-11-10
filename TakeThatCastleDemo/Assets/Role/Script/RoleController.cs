@@ -288,6 +288,8 @@ public class RoleController : TargetBase
                         m_MoveTargetPosition = targetPos;
                     }
                 }
+
+                FindTargetUpdate();
             }
         }
         else
@@ -345,15 +347,38 @@ public class RoleController : TargetBase
 
                 if (findRoleList.Count > 0)
                 {
+                    Dictionary<float, TargetBase> targetDic = new Dictionary<float, TargetBase>();
+                    float minDis = 10000f;
                     foreach (var item in findRoleList)
                     {
-                        //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + item.gameObject.name);
-                        m_Target = item;
+                        float dis = Vector3.Distance(item.GetTargetPosObj().transform.position, transform.position);
+                        targetDic.Add(dis, item);
+
+                        if(minDis > dis)
+                        {
+                            minDis = dis;
+                        }
+                    }
+                    if (targetDic.ContainsKey(minDis))
+                    {
+                        TargetBase target = targetDic[minDis];
+
+                        //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + target.gameObject.name);
+                        m_Target = target;
                         m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
                         SetStatus(RoleStatus.AutoRun);
                         result = true;
-                        break;
                     }
+
+                    //foreach (var item in findRoleList)
+                    //{
+                    //    //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + item.gameObject.name);
+                    //    m_Target = item;
+                    //    m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
+                    //    SetStatus(RoleStatus.AutoRun);
+                    //    result = true;
+                    //    break;
+                    //}
                 }
             }
         }
