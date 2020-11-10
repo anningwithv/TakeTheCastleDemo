@@ -24,7 +24,7 @@ public class RemoteRoleController : RoleController
         RemoteBullet remote = bullet.GetComponent<RemoteBullet>();
         remote.camp = m_Camp;
         remote.hurtValue = m_AttackHurt;
-        remote.speed = 10f;
+        remote.speed = 20f;
 
         if(m_Target != null)
         {
@@ -37,6 +37,20 @@ public class RemoteRoleController : RoleController
         }
 
         Destroy(bullet, 3f);
+    }
+
+    protected override void AttackEnd()
+    {
+        if (m_Target != null && m_Target.Status != RoleStatus.Die)
+        {
+            m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
+            SetStatus(RoleStatus.AutoRun);
+        }
+        else
+        {
+            m_Target = null;
+            SetStatus(RoleStatus.Idle);
+        }
     }
 
     protected override bool TargetType(TargetBase target)

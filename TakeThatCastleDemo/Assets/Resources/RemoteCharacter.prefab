@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Type: 2
   m_Target: {fileID: 0}
   m_HP: 500
-  m_AttackHurt: 50
+  m_AttackHurt: 25
   m_BeShootObj: {fileID: 8592880214745345355}
   m_AttackDistance: 20
   m_FindTargetRadius: 30

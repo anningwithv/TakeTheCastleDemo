@@ -51,7 +51,7 @@ public class RoleController : TargetBase
     private float m_IdleTimeTemp;
     private float m_RunLengthTimeTemp;
 
-    private Vector3 m_MoveTargetPosition;
+    protected Vector3 m_MoveTargetPosition;
 
     public Action<RoleController> IdleCallBack;
     public Action<RoleController> RunOverCallBack;
@@ -179,7 +179,7 @@ public class RoleController : TargetBase
         }
     }
 
-    private void SetStatus(RoleStatus status)
+    protected void SetStatus(RoleStatus status)
     {
         m_Status = status;
 
@@ -508,8 +508,8 @@ public class RoleController : TargetBase
         if (m_Target != null && m_Target.Status != RoleStatus.Die)
         {
             //Debug.LogError(gameObject.name + " -- Attack Resume");
-            float distance = Vector3.Distance(m_Target.transform.position, transform.position);
-            if(distance > m_AttackDistance)
+            float distance = Vector3.Distance(m_Target.GetTargetPosObj().transform.position, transform.position);
+            if (distance > m_AttackDistance)
             {
                 m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
                 SetStatus(RoleStatus.AutoRun);
