@@ -403,16 +403,17 @@ public class RoleController : TargetBase
     {
         //Debug.LogError(gameObject.name + " -- StartAttack");
 
-        if (m_Target != null)
-        {
-            transform.forward = (m_Target.transform.position - transform.position).normalized;
-        }
-        m_HasPath = false;
-
-        if(m_NavMeshAgent.isOnNavMesh)
+        if (m_NavMeshAgent.isOnNavMesh)
         {
             m_NavMeshAgent.isStopped = true;
             m_NavMeshAgent.ResetPath();
+        }
+
+        m_HasPath = false;
+
+        if (m_Target != null)
+        {
+            transform.forward = (m_Target.transform.position - transform.position).normalized;
         }
 
         AttackAnimation();
