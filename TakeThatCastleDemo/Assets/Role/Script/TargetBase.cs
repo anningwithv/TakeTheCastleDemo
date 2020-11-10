@@ -12,7 +12,7 @@ public class TargetBase : MonoBehaviour
     [SerializeField] protected TargetBase m_Target;
     [SerializeField] protected int m_HP = 50;
     [SerializeField] protected int m_AttackHurt = 10;
-
+    [SerializeField] protected GameObject m_BeShootObj;
     protected int m_ID;
 
     public Action<TargetBase> DieCallBack;
@@ -72,5 +72,15 @@ public class TargetBase : MonoBehaviour
     public virtual void Die()
     {
         
+    }
+
+    public virtual GameObject GetTargetPosObj()
+    {
+        return gameObject;
+    }
+
+    public virtual GameObject GetBeShootPosObj()
+    {
+        return m_BeShootObj;
     }
 }

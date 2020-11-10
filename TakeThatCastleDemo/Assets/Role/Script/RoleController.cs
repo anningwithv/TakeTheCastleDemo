@@ -51,7 +51,7 @@ public class RoleController : TargetBase
     private float m_IdleTimeTemp;
     private float m_RunLengthTimeTemp;
 
-    private Vector3 m_MoveTargetPosition;
+    protected Vector3 m_MoveTargetPosition;
 
     public Action<RoleController> IdleCallBack;
     public Action<RoleController> RunOverCallBack;
@@ -101,9 +101,14 @@ public class RoleController : TargetBase
             case RoleStatus.None:
                 break;
             case RoleStatus.Idle:
-                FindTargetUpdate();
-                IdleFindTargetUpdate();
-                IdleTimeUpdate();
+
+                bool findResult = FindTargetUpdate();
+
+                if(!findResult)
+                {
+                    IdleTimeUpdate();
+                }
+
                 break;
             case RoleStatus.SetRun:
                 RunAnimationUpdate();
@@ -174,7 +179,7 @@ public class RoleController : TargetBase
         }
     }
 
-    private void SetStatus(RoleStatus status)
+    protected void SetStatus(RoleStatus status)
     {
         m_Status = status;
 
@@ -266,7 +271,7 @@ public class RoleController : TargetBase
             }
             else
             {
-                Vector3 targetPos = m_Target.transform.position;
+                Vector3 targetPos = m_Target.GetTargetPosObj().transform.position;
                 Vector3 selfPos = transform.position;
 
                 float distance = Vector2.Distance(new Vector2(targetPos.x, targetPos.z), new Vector2(selfPos.x, selfPos.z));
@@ -283,6 +288,8 @@ public class RoleController : TargetBase
                         m_MoveTargetPosition = targetPos;
                     }
                 }
+
+                FindTargetUpdate();
             }
         }
         else
@@ -305,12 +312,19 @@ public class RoleController : TargetBase
         else
         {
             m_IdleTimeTemp = m_IdleTime;
-            IdleCallBack?.Invoke(this);
+
+            bool result = IdleFindTargetUpdate();
+
+            if(!result)
+            {
+                IdleCallBack?.Invoke(this);
+            }
         }
     }
 
-    private void FindTargetUpdate()
+    private bool FindTargetUpdate()
     {
+        bool result = false;
         if (m_Target == null)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, m_FindTargetRadius, 1 << LayerMask.NameToLayer("Target"));
@@ -333,23 +347,51 @@ public class RoleController : TargetBase
 
                 if (findRoleList.Count > 0)
                 {
+                    Dictionary<float, TargetBase> targetDic = new Dictionary<float, TargetBase>();
+                    float minDis = 10000f;
                     foreach (var item in findRoleList)
                     {
-                        m_Target = item;
-                        m_MoveTargetPosition = m_Target.transform.position;
-                        SetStatus(RoleStatus.AutoRun);
-                        break;
+                        float dis = Vector3.Distance(item.GetTargetPosObj().transform.position, transform.position);
+                        targetDic.Add(dis, item);
+
+                        if(minDis > dis)
+                        {
+                            minDis = dis;
+                        }
                     }
+                    if (targetDic.ContainsKey(minDis))
+                    {
+                        TargetBase target = targetDic[minDis];
+
+                        //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + target.gameObject.name);
+                        m_Target = target;
+                        m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
+                        SetStatus(RoleStatus.AutoRun);
+                        result = true;
+                    }
+
+                    //foreach (var item in findRoleList)
+                    //{
+                    //    //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + item.gameObject.name);
+                    //    m_Target = item;
+                    //    m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
+                    //    SetStatus(RoleStatus.AutoRun);
+                    //    result = true;
+                    //    break;
+                    //}
                 }
             }
         }
+
+        return result;
     }
 
-    private void IdleFindTargetUpdate()
+    private bool IdleFindTargetUpdate()
     {
+        bool result = false;
         if(m_Camp == RoleCamp.Blue)
         {
-            return;
+            return false;
         }
 
         if (m_Target == null)
@@ -360,13 +402,16 @@ public class RoleController : TargetBase
                 TargetBase target = GetRandomTarget(point);
                 if (target != null)
                 {
-                    //Debug.LogError(m_ID + " -- " + target.gameObject.name);
+                    //Debug.LogError(gameObject.name + " -- IdleFindTargetUpdate -- " + target.gameObject.name);
                     m_Target = target;
-                    m_MoveTargetPosition = m_Target.transform.position;
+                    m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
                     SetStatus(RoleStatus.AutoRun);
+                    result = true;
                 }
             }
         }
+
+        return result;
     }
 
     protected virtual bool TargetType(TargetBase target)
@@ -383,16 +428,17 @@ public class RoleController : TargetBase
     {
         //Debug.LogError(gameObject.name + " -- StartAttack");
 
-        if (m_Target != null)
-        {
-            transform.forward = (m_Target.transform.position - transform.position).normalized;
-        }
-        m_HasPath = false;
-
-        if(m_NavMeshAgent.isOnNavMesh)
+        if (m_NavMeshAgent.isOnNavMesh)
         {
             m_NavMeshAgent.isStopped = true;
             m_NavMeshAgent.ResetPath();
+        }
+
+        m_HasPath = false;
+
+        if (m_Target != null)
+        {
+            transform.forward = (m_Target.transform.position - transform.position).normalized;
         }
 
         AttackAnimation();
@@ -416,11 +462,6 @@ public class RoleController : TargetBase
         {
             //Debug.LogError(gameObject.name + " -- Can Not Move");
         }
-    }
-
-    private void SetNavActive1(bool active)
-    {
-        m_NavMeshAgent.enabled = active;
     }
 
     #region 动画设置
@@ -457,19 +498,21 @@ public class RoleController : TargetBase
     #region 动画方法回调
     protected virtual void AttackEnd()
     {
-        //Debug.LogError(gameObject.name + " -- AttackEnd");
+        //Debug.LogError(gameObject.name + " -- AttackEndCallBack");
         
         if (m_Target != null && m_Target.Status != RoleStatus.Die)
         {
-            float distance = Vector3.Distance(m_Target.transform.position, transform.position);
-            if(distance > m_AttackDistance)
+            //Debug.LogError(gameObject.name + " -- Attack Resume");
+            float distance = Vector3.Distance(m_Target.GetTargetPosObj().transform.position, transform.position);
+            if (distance > m_AttackDistance)
             {
-                m_MoveTargetPosition = m_Target.transform.position;
+                m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
                 SetStatus(RoleStatus.AutoRun);
             }
         }
         else
         {
+            //Debug.LogError(gameObject.name + " -- Attack Idle");
             m_Target = null;
             SetStatus(RoleStatus.Idle);
         }

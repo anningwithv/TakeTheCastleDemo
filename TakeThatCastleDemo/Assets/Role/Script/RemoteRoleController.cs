@@ -24,11 +24,11 @@ public class RemoteRoleController : RoleController
         RemoteBullet remote = bullet.GetComponent<RemoteBullet>();
         remote.camp = m_Camp;
         remote.hurtValue = m_AttackHurt;
-        remote.speed = 10f;
+        remote.speed = 20f;
 
         if(m_Target != null)
         {
-            Vector3 targetPos = m_Target.transform.position + Vector3.up * 3.5f;
+            Vector3 targetPos = m_Target.GetBeShootPosObj().transform.position;
             bullet.transform.forward = (targetPos - m_RemoteShootTrans.position).normalized;
         }
         else
@@ -37,6 +37,20 @@ public class RemoteRoleController : RoleController
         }
 
         Destroy(bullet, 3f);
+    }
+
+    protected override void AttackEnd()
+    {
+        if (m_Target != null && m_Target.Status != RoleStatus.Die)
+        {
+            m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
+            SetStatus(RoleStatus.AutoRun);
+        }
+        else
+        {
+            m_Target = null;
+            SetStatus(RoleStatus.Idle);
+        }
     }
 
     protected override bool TargetType(TargetBase target)
@@ -52,6 +66,13 @@ public class RemoteRoleController : RoleController
 
     protected override void SetAttackStatusUpdate()
     {
+        if (m_Target == null || m_Target.Status == RoleStatus.Die) 
+        {
+            m_AttackTimeTemp = m_AttackTime;
+            AttackEnd();
+            return;
+        }
+
         if (m_AttackTimeTemp > 0)
         {
             m_AttackTimeTemp -= Time.deltaTime;
@@ -63,8 +84,6 @@ public class RemoteRoleController : RoleController
             StartHurt();
             AttackEnd();
         }
-
-        base.SetAttackStatusUpdate();
     }
 
     protected override void InputTestUpdate()

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Cannon : TargetBase
 {
+    [SerializeField] private GameObject m_TargetPosObj;
 	public GameObject bulletPrefab;
 	public Transform target;
     public Transform bulletPos;
@@ -109,6 +110,11 @@ public class Cannon : TargetBase
         result.y = Vy;
 
         return result;
+    }
+
+    public override GameObject GetTargetPosObj()
+    {
+        return m_TargetPosObj;
     }
 }
 	

@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 4835190740233385812}
   - {fileID: 6457965572395561529}
+  - {fileID: 6436298935439942794}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -125,7 +126,8 @@ MonoBehaviour:
   m_Type: 2
   m_Target: {fileID: 0}
   m_HP: 500
-  m_AttackHurt: 10
+  m_AttackHurt: 25
+  m_BeShootObj: {fileID: 8592880214745345355}
   m_AttackDistance: 20
   m_FindTargetRadius: 30
   m_DieTime: 5
@@ -133,6 +135,7 @@ MonoBehaviour:
   m_RunLengthTime: 0.5
   m_RunLength: 0.3
   m_RemoteShootTrans: {fileID: 1909264078461557645}
+  m_AttackTime: 2
 --- !u!1 &560108202298027553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,6 +1013,36 @@ Transform:
   - {fileID: 996436320895180868}
   m_Father: {fileID: 5148447302013420743}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8592880214745345355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6436298935439942794}
+  m_Layer: 8
+  m_Name: BeShootPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6436298935439942794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8592880214745345355}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.00701, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1101797033679787968}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9030526182536607928
 GameObject:
