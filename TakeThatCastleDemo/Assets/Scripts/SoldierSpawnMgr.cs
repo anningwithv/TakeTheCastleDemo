@@ -23,7 +23,7 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
     {
         //TODO:
         Log.i("Spawn solider...");
-        GameObject go = GameObject.Instantiate(Resources.Load("Character") as GameObject);
+        GameObject go = GameObject.Instantiate(Resources.Load("RemoteCharacter") as GameObject);
         go.transform.position = CheckPointMgr.S.GetSoldierSpawnPos();
         RoleController role = go.GetComponent<RoleController>();
         m_RoleList.Add(role);

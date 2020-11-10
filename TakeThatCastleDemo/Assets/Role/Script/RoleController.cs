@@ -101,9 +101,14 @@ public class RoleController : TargetBase
             case RoleStatus.None:
                 break;
             case RoleStatus.Idle:
-                FindTargetUpdate();
-                IdleFindTargetUpdate();
-                IdleTimeUpdate();
+
+                bool findResult = FindTargetUpdate();
+
+                if(!findResult)
+                {
+                    IdleTimeUpdate();
+                }
+
                 break;
             case RoleStatus.SetRun:
                 RunAnimationUpdate();
@@ -266,7 +271,7 @@ public class RoleController : TargetBase
             }
             else
             {
-                Vector3 targetPos = m_Target.transform.position;
+                Vector3 targetPos = m_Target.GetTargetPosObj().transform.position;
                 Vector3 selfPos = transform.position;
 
                 float distance = Vector2.Distance(new Vector2(targetPos.x, targetPos.z), new Vector2(selfPos.x, selfPos.z));
@@ -305,12 +310,19 @@ public class RoleController : TargetBase
         else
         {
             m_IdleTimeTemp = m_IdleTime;
-            IdleCallBack?.Invoke(this);
+
+            bool result = IdleFindTargetUpdate();
+
+            if(!result)
+            {
+                IdleCallBack?.Invoke(this);
+            }
         }
     }
 
-    private void FindTargetUpdate()
+    private bool FindTargetUpdate()
     {
+        bool result = false;
         if (m_Target == null)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, m_FindTargetRadius, 1 << LayerMask.NameToLayer("Target"));
@@ -335,21 +347,26 @@ public class RoleController : TargetBase
                 {
                     foreach (var item in findRoleList)
                     {
+                        //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + item.gameObject.name);
                         m_Target = item;
-                        m_MoveTargetPosition = m_Target.transform.position;
+                        m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
                         SetStatus(RoleStatus.AutoRun);
+                        result = true;
                         break;
                     }
                 }
             }
         }
+
+        return result;
     }
 
-    private void IdleFindTargetUpdate()
+    private bool IdleFindTargetUpdate()
     {
+        bool result = false;
         if(m_Camp == RoleCamp.Blue)
         {
-            return;
+            return false;
         }
 
         if (m_Target == null)
@@ -360,13 +377,16 @@ public class RoleController : TargetBase
                 TargetBase target = GetRandomTarget(point);
                 if (target != null)
                 {
-                    //Debug.LogError(m_ID + " -- " + target.gameObject.name);
+                    //Debug.LogError(gameObject.name + " -- IdleFindTargetUpdate -- " + target.gameObject.name);
                     m_Target = target;
-                    m_MoveTargetPosition = m_Target.transform.position;
+                    m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
                     SetStatus(RoleStatus.AutoRun);
+                    result = true;
                 }
             }
         }
+
+        return result;
     }
 
     protected virtual bool TargetType(TargetBase target)
@@ -457,19 +477,21 @@ public class RoleController : TargetBase
     #region 动画方法回调
     protected virtual void AttackEnd()
     {
-        //Debug.LogError(gameObject.name + " -- AttackEnd");
+        //Debug.LogError(gameObject.name + " -- AttackEndCallBack");
         
         if (m_Target != null && m_Target.Status != RoleStatus.Die)
         {
+            //Debug.LogError(gameObject.name + " -- Attack Resume");
             float distance = Vector3.Distance(m_Target.transform.position, transform.position);
             if(distance > m_AttackDistance)
             {
-                m_MoveTargetPosition = m_Target.transform.position;
+                m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
                 SetStatus(RoleStatus.AutoRun);
             }
         }
         else
         {
+            //Debug.LogError(gameObject.name + " -- Attack Idle");
             m_Target = null;
             SetStatus(RoleStatus.Idle);
         }
