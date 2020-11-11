@@ -28,4 +28,12 @@ public class CinemachineMgr : TMonoSingleton<CinemachineMgr>
         m_CurVirtualCamera = virtualCameraList[m_SelectedVirtualCameraIndex];
         m_CurVirtualCamera.Priority = 10;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            OnSelectNextVirtualCamera();
+        }
+    }
 }
