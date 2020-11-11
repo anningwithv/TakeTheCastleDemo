@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RemoteRoleController : RoleController
 {
+    [SerializeField] [Range(0, 1)] private float m_IKWeight = 0.2f;
     [SerializeField] private Transform m_RemoteShootTrans;
     [SerializeField] private float m_AttackTime = 2f;
     [SerializeField] private bool m_IsIK;
@@ -112,7 +113,7 @@ public class RemoteRoleController : RoleController
     {
         if (m_IsIK && m_Status == RoleStatus.Attack)
         {
-            m_Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+            m_Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, m_IKWeight);
             m_Animator.SetIKPosition(AvatarIKGoal.RightHand, m_IKTrans.transform.position);
         }
         else
