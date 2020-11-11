@@ -15,6 +15,8 @@ public class CinemachineMgr : TMonoSingleton<CinemachineMgr>
     {
         m_CurVirtualCamera = virtualCameraList[m_SelectedVirtualCameraIndex];
         m_CurVirtualCamera.Priority = 10;
+
+        StartCoroutine(MoveCameraWhenStart());
     }
 
     public void OnSelectNextVirtualCamera()
@@ -27,6 +29,13 @@ public class CinemachineMgr : TMonoSingleton<CinemachineMgr>
 
         m_CurVirtualCamera = virtualCameraList[m_SelectedVirtualCameraIndex];
         m_CurVirtualCamera.Priority = 10;
+    }
+
+    private IEnumerator MoveCameraWhenStart()
+    {
+        yield return new WaitForSeconds(1f);
+
+        OnSelectNextVirtualCamera();
     }
 
     private void Update()
