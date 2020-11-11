@@ -6,14 +6,20 @@ public class RemoteRoleController : RoleController
 {
     [SerializeField] private Transform m_RemoteShootTrans;
     [SerializeField] private float m_AttackTime = 2f;
+    [SerializeField] private bool m_IsIK;
+
+    [SerializeField] private Transform m_IKTrans;
+    [SerializeField] private Transform m_Gun;
+
+    private Vector3 m_IKInitPosition;
 
     private float m_AttackTimeTemp;
 
     protected override void Awake()
     {
         base.Awake();
-
         m_AttackTimeTemp = m_AttackTime;
+        m_IKInitPosition = m_IKTrans.position;
     }
 
     protected override void StartHurt()
@@ -24,7 +30,7 @@ public class RemoteRoleController : RoleController
         RemoteBullet remote = bullet.GetComponent<RemoteBullet>();
         remote.camp = m_Camp;
         remote.hurtValue = m_AttackHurt;
-        remote.speed = 20f;
+        remote.speed = 30f;
 
         if(m_Target != null)
         {
@@ -75,6 +81,12 @@ public class RemoteRoleController : RoleController
 
         if (m_AttackTimeTemp > 0)
         {
+            Vector3 IKDir = (m_Target.GetBeShootPosObj().transform.position - m_Gun.position).normalized;
+            m_IKTrans.transform.position = m_Gun.position + IKDir * 4;
+
+            Vector3 dir = (m_IKTrans.position - m_Gun.position).normalized;
+            m_Gun.forward = dir;
+
             m_AttackTimeTemp -= Time.deltaTime;
         }
         else
@@ -89,5 +101,23 @@ public class RemoteRoleController : RoleController
     protected override void InputTestUpdate()
     {
         
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    protected void OnAnimatorIK(int layerIndex)
+    {
+        if (m_IsIK && m_Status == RoleStatus.Attack)
+        {
+            m_Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+            m_Animator.SetIKPosition(AvatarIKGoal.RightHand, m_IKTrans.transform.position);
+        }
+        else
+        {
+            m_Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0f);
+        }
     }
 }

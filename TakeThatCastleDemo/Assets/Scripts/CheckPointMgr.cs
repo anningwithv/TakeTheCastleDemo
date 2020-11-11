@@ -16,8 +16,12 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
 
     private void Start()
     {
-        m_CurCheckPoint = checkPointList[0];
-        m_TargetCheckPoint = checkPointList.Where(i => i.index == m_CurCheckPoint.index + 1).FirstOrDefault();
+        if (checkPointList.Count > 0)
+        {
+            m_CurCheckPoint = checkPointList[0];
+            m_TargetCheckPoint = checkPointList.Where(i => i.index == m_CurCheckPoint.index + 1).FirstOrDefault();
+        }
+
     }
 
     public void OnCheckPointTriggered(CheckPoint checkPoint)

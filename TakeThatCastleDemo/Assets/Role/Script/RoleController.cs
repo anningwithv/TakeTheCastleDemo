@@ -87,7 +87,7 @@ public class RoleController : TargetBase
 
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (m_Status == RoleStatus.Die)
         {

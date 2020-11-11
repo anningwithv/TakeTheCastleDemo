@@ -17,10 +17,10 @@ public class CannonBullet : MonoBehaviour
             List<RoleController> redRoleList = SoldierSpawnMgr.S.GetRoleControllerInRange(transform.position, damageRange, RoleCamp.Red);
             redRoleList.ForEach(i => i.Hurt(damage));
 
-            GameObject.Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            GameObject effectObj = GameObject.Instantiate(explosionEffect, transform.position, Quaternion.identity);
 
             Destroy(gameObject);
-
+            Destroy(effectObj, 5f);
             //TargetBase target = other.gameObject.GetComponent<TargetBase>();
             //if (target == targetBase)
             //{
