@@ -11,6 +11,7 @@ public class Cannon : TargetBase
     public float time;
     public float attackRange = 5;
     public float attackInterval = 3;
+    public Animator m_Animator = null;
 
     private float m_FindTargetInterval = 1f;
     private float m_FindTargetTime = 0f;
@@ -82,15 +83,7 @@ public class Cannon : TargetBase
 
     private void LaunchBullet()
     {
-        Vector3 Vo = CalculateVelocity(target.position, bulletPos.position, time);
-        cannonTrans.rotation = Quaternion.LookRotation(Vo);
-
-        GameObject bulletObj = GameObject.Instantiate(bulletPrefab.gameObject) as GameObject;
-        bulletObj.transform.position = bulletPos.position;
-        bulletObj.GetComponent<Rigidbody>().velocity = Vo;
-
-        CannonBullet bullet = bulletObj.GetComponent<CannonBullet>();
-        bullet.targetBase = this;
+        m_Animator.SetTrigger("Fire");
     }
 
     Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time)
@@ -115,6 +108,29 @@ public class Cannon : TargetBase
     public override GameObject GetTargetPosObj()
     {
         return m_TargetPosObj;
+    }
+
+    public void OnFire()
+    {
+        m_Animator.SetBool("FireEnd", false);
+
+        if (target == null)
+            return;
+
+        Vector3 Vo = CalculateVelocity(target.position, bulletPos.position, time);
+        cannonTrans.rotation = Quaternion.LookRotation(Vo);
+
+        GameObject bulletObj = GameObject.Instantiate(bulletPrefab.gameObject) as GameObject;
+        bulletObj.transform.position = bulletPos.position;
+        bulletObj.GetComponent<Rigidbody>().velocity = Vo;
+
+        CannonBullet bullet = bulletObj.GetComponent<CannonBullet>();
+        bullet.targetBase = this;
+    }
+
+    public void OnFireEnd()
+    {
+        m_Animator.SetBool("FireEnd", true);
     }
 }
 	
