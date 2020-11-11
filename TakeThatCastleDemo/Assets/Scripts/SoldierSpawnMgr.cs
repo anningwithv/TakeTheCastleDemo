@@ -13,6 +13,7 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
     private float m_MoveRandomRadius = 10f;
     private Vector3 m_SoldierTargetPos = Vector3.zero;
 
+    public List<RoleController> RoleList { get => m_RoleList; }
 
     public override void OnSingletonInit()
     {

@@ -12,7 +12,8 @@ public enum RoleStatus
     SetRun,
     AutoRun,
     Attack,
-    Die
+    Die,
+    Win
 }
 
 public enum RoleCamp
@@ -179,7 +180,7 @@ public class RoleController : TargetBase
         }
     }
 
-    protected void SetStatus(RoleStatus status)
+    public void SetStatus(RoleStatus status)
     {
         m_Status = status;
 
@@ -208,6 +209,10 @@ public class RoleController : TargetBase
             case RoleStatus.Die:
                 m_Animator.speed = 1;
                 Die();
+                break;
+            case RoleStatus.Win:
+                StopNav();
+                WinAnimation();
                 break;
             default:
                 break;
@@ -245,10 +250,8 @@ public class RoleController : TargetBase
             m_RunLengthTimeTemp += Time.deltaTime;
             if (m_RunLengthTimeTemp >= m_RunLengthTime)
             {
-                if (m_NavMeshAgent.isOnNavMesh)
+                if(StopNav())
                 {
-                    m_NavMeshAgent.isStopped = true;
-                    m_NavMeshAgent.ResetPath();
                     RunOverCallBack?.Invoke(this);
                     SetStatus(RoleStatus.Idle);
                 }
@@ -428,11 +431,7 @@ public class RoleController : TargetBase
     {
         //Debug.LogError(gameObject.name + " -- StartAttack");
 
-        if (m_NavMeshAgent.isOnNavMesh)
-        {
-            m_NavMeshAgent.isStopped = true;
-            m_NavMeshAgent.ResetPath();
-        }
+        StopNav();
 
         m_HasPath = false;
 
@@ -442,6 +441,18 @@ public class RoleController : TargetBase
         }
 
         AttackAnimation();
+    }
+
+    private bool StopNav()
+    {
+        bool result = m_NavMeshAgent.isOnNavMesh;
+        if (result)
+        {
+            m_NavMeshAgent.isStopped = true;
+            m_NavMeshAgent.ResetPath();
+            m_NavMeshAgent.velocity = Vector3.zero;
+        }
+        return result;
     }
 
     private bool CanStartMove()
@@ -492,6 +503,16 @@ public class RoleController : TargetBase
         m_Animator.SetBool("Idle", false);
         m_Animator.SetBool("Attack", false);
         m_Animator.SetBool("Die", true);
+    }
+
+    private void WinAnimation()
+    {
+        m_Animator.SetBool("Run", false);
+        m_Animator.SetBool("Idle", false);
+        m_Animator.SetBool("Attack", false);
+        m_Animator.SetBool("Die", false);
+        m_Animator.SetBool("Win", true);
+
     }
     #endregion
 

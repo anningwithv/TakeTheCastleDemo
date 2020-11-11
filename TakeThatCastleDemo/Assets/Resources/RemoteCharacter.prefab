@@ -68,8 +68,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.003
-  m_Speed: 6
-  m_Acceleration: 8
+  m_Speed: 12
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 0
@@ -126,15 +126,16 @@ MonoBehaviour:
   m_Camp: 1
   m_Type: 2
   m_Target: {fileID: 0}
-  m_HP: 500
-  m_AttackHurt: 25
+  m_HP: 50
+  m_AttackHurt: 10
   m_BeShootObj: {fileID: 8592880214745345355}
-  m_AttackDistance: 20
+  m_AttackDistance: 10
   m_FindTargetRadius: 30
   m_DieTime: 5
   m_IdleTime: 2
   m_RunLengthTime: 0.5
-  m_RunLength: 0.3
+  m_RunLength: 1
+  m_IKWeight: 0.2
   m_RemoteShootTrans: {fileID: 1909264078461557645}
   m_AttackTime: 2
   m_IsIK: 1

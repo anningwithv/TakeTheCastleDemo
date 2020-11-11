@@ -29,6 +29,10 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
         if (checkPoint == checkPointList[checkPointList.Count - 1])
         {
             Debug.LogError("Game win");
+            foreach (var item in SoldierSpawnMgr.S.RoleList)
+            {
+                item.SetStatus(RoleStatus.Win);
+            }
         }
         else
         {
@@ -40,6 +44,10 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
                 CinemachineMgr.S.OnSelectNextVirtualCamera();
             }
 
+            if (m_CurCheckPoint.index == 0)
+            {
+                CinemachineMgr.S.OnSelectNextVirtualCamera();
+            }
         }
     }
 
