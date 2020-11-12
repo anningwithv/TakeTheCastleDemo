@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Qarth;
 using Cinemachine;
+using DG.Tweening;
 
 public class CinemachineMgr : TMonoSingleton<CinemachineMgr>
 {
     public List<CinemachineVirtualCamera> virtualCameraList = new List<CinemachineVirtualCamera>();
+    public Transform flag = null;
 
     private int m_SelectedVirtualCameraIndex = 0;
     private CinemachineVirtualCamera m_CurVirtualCamera = null;
@@ -44,5 +46,10 @@ public class CinemachineMgr : TMonoSingleton<CinemachineMgr>
         {
             OnSelectNextVirtualCamera();
         }
+    }
+
+    public void ShowTheFlag()
+    {
+        flag.DOMoveY(22.5f, 1f).SetRelative();
     }
 }
