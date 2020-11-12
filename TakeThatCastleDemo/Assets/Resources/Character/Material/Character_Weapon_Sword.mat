@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RemoteCharacter_Weapon_Gun
+  m_Name: Character_Weapon_Sword
   m_Shader: {fileID: 4800000, guid: c5c34323d54ea8945b1e21053076b632, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

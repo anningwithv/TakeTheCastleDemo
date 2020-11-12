@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Qarth;
 using System.Linq;
+using UnityEngine.UI;
 
 public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
 {
+    
+    [SerializeField] private int m_SpawnCount = 10;
+
     private List<RoleController> m_RoleList = new List<RoleController>();
 
     [SerializeField] private List<Vector3> m_TargetPos = new List<Vector3>();
@@ -18,20 +22,40 @@ public class SoldierSpawnMgr : TMonoSingleton<SoldierSpawnMgr>
     public override void OnSingletonInit()
     {
         base.OnSingletonInit();
+
+       
     }
 
     public void SpawnSoldier()
     {
         //TODO:
         Log.i("Spawn solider...");
-        GameObject go = GameObject.Instantiate(Resources.Load("RemoteCharacter") as GameObject);
-        go.transform.position = CheckPointMgr.S.GetSoldierSpawnPos();
-        RoleController role = go.GetComponent<RoleController>();
-        m_RoleList.Add(role);
 
-        role.IdleCallBack = IdleCallBack;
-        role.RunOverCallBack = RunOverCallBack;
-        role.InitializeCallBack = InitializeCallBack;
+        StartCoroutine(StartSpawn());
+    }
+
+    private IEnumerator StartSpawn()
+    {
+        for (int i = 0; i < m_SpawnCount; i++)
+        {
+            string name = "RemoteCharacter";
+            float value = Random.Range(0, 1.0f);
+            if(value <= 0.5f)
+            {
+                name = "Character";
+            }
+
+            GameObject go = GameObject.Instantiate(Resources.Load(name) as GameObject);
+            go.transform.position = CheckPointMgr.S.GetSoldierSpawnPos();
+            RoleController role = go.GetComponent<RoleController>();
+            m_RoleList.Add(role);
+
+            role.IdleCallBack = IdleCallBack;
+            role.RunOverCallBack = RunOverCallBack;
+            role.InitializeCallBack = InitializeCallBack;
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     private void OnDrawGizmos()
