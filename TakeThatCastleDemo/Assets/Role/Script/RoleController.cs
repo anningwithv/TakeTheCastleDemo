@@ -362,6 +362,18 @@ public class RoleController : TargetBase
                 }
             }
         }
+        else
+        {
+            TargetBase target = GetDistanceTarget();
+            {
+                if (target != null)
+                {
+                    m_Target = target;
+                    m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
+                    result = true;
+                }
+            }
+        }
 
         return result;
     }
