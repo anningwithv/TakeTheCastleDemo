@@ -139,7 +139,7 @@ public class RoleController : TargetBase
             Gizmos.color = new Color(1, 0, 0, 0.3f);
             Gizmos.DrawWireSphere(transform.position, m_FindTargetRadius);
 
-            if(m_NavMeshAgent.hasPath)
+            if(m_NavMeshAgent != null && m_NavMeshAgent.hasPath)
             {
                 Gizmos.DrawLine(transform.position, m_MoveTargetPosition);
             }
