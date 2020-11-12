@@ -115,7 +115,7 @@ MonoBehaviour:
   m_AttackDistance: 10
   m_FindTargetRadius: 30
   m_DieTime: 5
-  m_IdleTime: 2
+  m_IdleTime: 0.5
   m_RunLengthTime: 0.5
   m_RunLength: 1
   m_IKWeight: 0.2

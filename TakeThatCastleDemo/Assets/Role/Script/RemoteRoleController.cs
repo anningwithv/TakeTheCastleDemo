@@ -73,30 +73,30 @@ public class RemoteRoleController : RoleController
 
     protected override void SetAttackStatusUpdate()
     {
-        if (m_Target == null || m_Target.Status == RoleStatus.Die) 
+        if (m_Target == null || m_Target.Status == RoleStatus.Die)
         {
             m_AttackTimeTemp = m_AttackTime;
             AttackEnd();
             return;
         }
 
-        if (m_AttackTimeTemp > 0)
-        {
-            Vector3 IKDir = (m_Target.GetBeShootPosObj().transform.position - m_Gun.position).normalized;
-            m_IKTrans.transform.position = m_Gun.position + IKDir * 4;
+        //if (m_AttackTimeTemp > 0)
+        //{
+        //    Vector3 IKDir = (m_Target.GetBeShootPosObj().transform.position - m_Gun.position).normalized;
+        //    m_IKTrans.transform.position = m_Gun.position + IKDir * 4;
 
-            Vector3 dir = (m_IKTrans.position - m_Gun.position).normalized;
-            m_Gun.forward = dir;
+        //    Vector3 dir = (m_IKTrans.position - m_Gun.position).normalized;
+        //    m_Gun.forward = dir;
 
-            m_AttackTimeTemp -= Time.deltaTime;
-        }
-        else
-        {
-            m_AttackTimeTemp = m_AttackTime;
+        //    m_AttackTimeTemp -= Time.deltaTime;
+        //}
+        //else
+        //{
+        //    m_AttackTimeTemp = m_AttackTime;
 
-            StartHurt();
-            //AttackEnd();
-        }
+        //    StartHurt();
+        //    //AttackEnd();
+        //}
     }
 
     protected override void InputTestUpdate()

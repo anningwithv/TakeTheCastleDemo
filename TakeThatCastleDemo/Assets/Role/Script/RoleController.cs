@@ -103,13 +103,14 @@ public class RoleController : TargetBase
                 break;
             case RoleStatus.Idle:
 
-                bool findResult = FindTargetUpdate();
+                IdleTimeUpdate();
 
-                if(!findResult)
-                {
-                    IdleTimeUpdate();
-                }
+                //bool findResult = FindTargetUpdate();
 
+                //if (!findResult)
+                //{
+                //    IdleTimeUpdate();
+                //}
                 break;
             case RoleStatus.SetRun:
                 RunAnimationUpdate();
@@ -328,13 +329,19 @@ public class RoleController : TargetBase
         }
         else
         {
-            m_IdleTimeTemp = m_IdleTime;
 
-            bool result = IdleFindTargetUpdate();
-
-            if(!result)
+            if(m_Camp == RoleCamp.Red)
             {
-                IdleCallBack?.Invoke(this);
+                bool result = IdleFindTargetUpdate();
+
+                if (!result)
+                {
+                    IdleCallBack?.Invoke(this);
+                }
+            }
+            else
+            {
+                FindTargetUpdate();
             }
         }
     }
@@ -408,10 +415,6 @@ public class RoleController : TargetBase
     private bool IdleFindTargetUpdate()
     {
         bool result = false;
-        if(m_Camp == RoleCamp.Blue)
-        {
-            return false;
-        }
 
         if (m_Target == null)
         {
