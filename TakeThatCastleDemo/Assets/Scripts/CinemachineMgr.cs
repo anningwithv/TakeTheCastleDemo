@@ -9,6 +9,7 @@ public class CinemachineMgr : TMonoSingleton<CinemachineMgr>
 {
     public List<CinemachineVirtualCamera> virtualCameraList = new List<CinemachineVirtualCamera>();
     public Transform flag = null;
+    public GameObject firework = null;
 
     private int m_SelectedVirtualCameraIndex = 0;
     private CinemachineVirtualCamera m_CurVirtualCamera = null;
@@ -50,6 +51,15 @@ public class CinemachineMgr : TMonoSingleton<CinemachineMgr>
 
     public void ShowTheFlag()
     {
+        StartCoroutine(ShowFirework());
+
         flag.DOMoveY(22.5f, 1f).SetRelative();
+    }
+
+    IEnumerator ShowFirework()
+    {
+        yield return new WaitForSeconds(1f);
+
+        firework.SetActive(true);
     }
 }
