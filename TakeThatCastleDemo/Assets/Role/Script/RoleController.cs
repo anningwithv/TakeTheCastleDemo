@@ -119,6 +119,7 @@ public class RoleController : TargetBase
             case RoleStatus.AutoRun:
                 RunAnimationUpdate();
                 AutoRunStatusUpdate();
+                FindTargetUpdate();
                 break;
             case RoleStatus.Attack:
                 SetAttackStatusUpdate();
@@ -137,7 +138,11 @@ public class RoleController : TargetBase
             Gizmos.color = new Color(1, 0, 0, 0.3f);
             Gizmos.DrawWireSphere(transform.position, m_FindTargetRadius);
 
-            Gizmos.DrawLine(transform.position, m_MoveTargetPosition);
+            if(m_NavMeshAgent.hasPath)
+            {
+                Gizmos.DrawLine(transform.position, m_MoveTargetPosition);
+            }
+            
         }
         
     }
@@ -204,6 +209,8 @@ public class RoleController : TargetBase
             case RoleStatus.Attack:
                 m_MoveTargetPosition = Vector3.zero;
                 m_Animator.speed = 1;
+                m_RunLengthTimeTemp = 0;
+                m_IdleTimeTemp = m_IdleTime;
                 StartAttack();
                 break;
             case RoleStatus.Die:
@@ -290,6 +297,13 @@ public class RoleController : TargetBase
                         SetStatus(RoleStatus.AutoRun);
                         m_MoveTargetPosition = targetPos;
                     }
+                    else
+                    {
+                        if(!m_NavMeshAgent.hasPath)
+                        {
+                            SetStatus(RoleStatus.AutoRun);
+                        }
+                    }
                 }
 
                 FindTargetUpdate();
@@ -330,63 +344,65 @@ public class RoleController : TargetBase
         bool result = false;
         if (m_Target == null)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, m_FindTargetRadius, 1 << LayerMask.NameToLayer("Target"));
-
-            if (colliders.Length > 0)
+            TargetBase target = GetDistanceTarget();
             {
-                List<TargetBase> findRoleList = new List<TargetBase>();
-
-                foreach (var item in colliders)
+                if (target != null)
                 {
-                    TargetBase role = item.gameObject.GetComponent<TargetBase>();
-                    if (role!= null && role != this && role.Status != RoleStatus.Die && role.Camp != RoleCamp.None && role.Camp != m_Camp)
-                    {
-                        if (TargetType(role))
-                        {
-                            findRoleList.Add(role);
-                        }
-                    }
-                }
-
-                if (findRoleList.Count > 0)
-                {
-                    Dictionary<float, TargetBase> targetDic = new Dictionary<float, TargetBase>();
-                    float minDis = 10000f;
-                    foreach (var item in findRoleList)
-                    {
-                        float dis = Vector3.Distance(item.GetTargetPosObj().transform.position, transform.position);
-                        targetDic.Add(dis, item);
-
-                        if(minDis > dis)
-                        {
-                            minDis = dis;
-                        }
-                    }
-                    if (targetDic.ContainsKey(minDis))
-                    {
-                        TargetBase target = targetDic[minDis];
-
-                        //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + target.gameObject.name);
-                        m_Target = target;
-                        m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
-                        SetStatus(RoleStatus.AutoRun);
-                        result = true;
-                    }
-
-                    //foreach (var item in findRoleList)
-                    //{
-                    //    //Debug.LogError(gameObject.name + " -- FindTargetUpdate -- " + item.gameObject.name);
-                    //    m_Target = item;
-                    //    m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
-                    //    SetStatus(RoleStatus.AutoRun);
-                    //    result = true;
-                    //    break;
-                    //}
+                    m_Target = target;
+                    m_MoveTargetPosition = m_Target.GetTargetPosObj().transform.position;
+                    SetStatus(RoleStatus.AutoRun);
+                    result = true;
                 }
             }
         }
 
         return result;
+    }
+
+    private TargetBase GetDistanceTarget()
+    {
+        TargetBase target = null;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, m_FindTargetRadius, 1 << LayerMask.NameToLayer("Target"));
+
+        if (colliders.Length > 0)
+        {
+            List<TargetBase> findRoleList = new List<TargetBase>();
+
+            foreach (var item in colliders)
+            {
+                TargetBase role = item.gameObject.GetComponent<TargetBase>();
+                if (role != null && role != this && role.Status != RoleStatus.Die && role.Camp != RoleCamp.None && role.Camp != m_Camp)
+                {
+                    if (TargetType(role))
+                    {
+                        findRoleList.Add(role);
+                    }
+                }
+            }
+
+            if (findRoleList.Count > 0)
+            {
+                Dictionary<float, TargetBase> targetDic = new Dictionary<float, TargetBase>();
+                float minDis = 10000f;
+                foreach (var item in findRoleList)
+                {
+                    float dis = Vector3.Distance(item.GetTargetPosObj().transform.position, transform.position);
+                    targetDic.Add(dis, item);
+
+                    if (minDis > dis)
+                    {
+                        minDis = dis;
+                    }
+                }
+                if (targetDic.ContainsKey(minDis))
+                {
+                    target = targetDic[minDis];
+                }
+            }
+        }
+
+        return target;
     }
 
     private bool IdleFindTargetUpdate()

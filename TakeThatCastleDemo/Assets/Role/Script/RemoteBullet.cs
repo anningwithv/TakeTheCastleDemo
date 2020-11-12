@@ -27,6 +27,7 @@ public class RemoteBullet : MonoBehaviour
         if(target != null && target.Camp != camp)
         {
             target.Hurt(hurtValue);
+            Destroy(gameObject);
         }
     }
 }

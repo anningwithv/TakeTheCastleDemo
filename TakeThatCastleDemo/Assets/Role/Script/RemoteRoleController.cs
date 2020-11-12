@@ -95,7 +95,7 @@ public class RemoteRoleController : RoleController
             m_AttackTimeTemp = m_AttackTime;
 
             StartHurt();
-            AttackEnd();
+            //AttackEnd();
         }
     }
 
