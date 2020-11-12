@@ -80,6 +80,13 @@ public class RemoteRoleController : RoleController
             return;
         }
 
+        Vector3 IKDir = (m_Target.GetBeShootPosObj().transform.position - m_Gun.position).normalized;
+        m_IKTrans.transform.position = m_Gun.position + IKDir * 4;
+
+        Vector3 dir = (m_IKTrans.position - m_Gun.position).normalized;
+        m_Gun.forward = dir;
+
+
         //if (m_AttackTimeTemp > 0)
         //{
         //    Vector3 IKDir = (m_Target.GetBeShootPosObj().transform.position - m_Gun.position).normalized;
