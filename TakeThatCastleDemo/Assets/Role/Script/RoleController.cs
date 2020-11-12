@@ -467,10 +467,10 @@ public class RoleController : TargetBase
 
         m_HasPath = false;
 
-        if (m_Target != null)
-        {
-            transform.forward = (m_Target.transform.position - transform.position).normalized;
-        }
+        //if (m_Target != null)
+        //{
+        //    transform.forward = (m_Target.transform.position - transform.position).normalized;
+        //}
 
         AttackAnimation();
     }
