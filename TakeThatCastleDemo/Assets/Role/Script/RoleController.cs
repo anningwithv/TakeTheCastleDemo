@@ -199,6 +199,7 @@ public class RoleController : TargetBase
                 m_Animator.speed = 1;
                 m_RunLengthTimeTemp = 0;
                 m_IdleTimeTemp = m_IdleTime;
+                StopNav();
                 IdleAniamtion();
                 break;
             case RoleStatus.SetRun:
@@ -481,8 +482,8 @@ public class RoleController : TargetBase
         {
             m_NavMeshAgent.isStopped = true;
             m_NavMeshAgent.ResetPath();
-            m_NavMeshAgent.velocity = Vector3.zero;
         }
+        m_NavMeshAgent.velocity = Vector3.zero;
         return result;
     }
 
