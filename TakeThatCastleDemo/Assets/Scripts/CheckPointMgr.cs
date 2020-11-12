@@ -35,6 +35,9 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
             {
                 item.SetStatus(RoleStatus.Win);
             }
+
+            CinemachineMgr.S.ShowTheFlag();
+            CinemachineMgr.S.OnSelectNextVirtualCamera();
         }
         else
         {
