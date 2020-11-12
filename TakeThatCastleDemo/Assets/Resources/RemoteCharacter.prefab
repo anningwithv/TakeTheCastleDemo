@@ -137,7 +137,7 @@ MonoBehaviour:
   m_RunLength: 1
   m_IKWeight: 0.2
   m_RemoteShootTrans: {fileID: 1909264078461557645}
-  m_AttackTime: 2
+  m_AttackTime: 1
   m_IsIK: 1
   m_IKTrans: {fileID: 6958931474763512238}
   m_Gun: {fileID: 7424033409716462660}

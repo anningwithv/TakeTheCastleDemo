@@ -26,6 +26,8 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
 
     public void OnCheckPointTriggered(CheckPoint checkPoint)
     {
+        //Debug.LogError("OnCheckPointTriggered");
+
         if (checkPoint == checkPointList[checkPointList.Count - 1])
         {
             Debug.LogError("Game win");
@@ -44,10 +46,10 @@ public class CheckPointMgr : TMonoSingleton<CheckPointMgr>
                 CinemachineMgr.S.OnSelectNextVirtualCamera();
             }
 
-            if (m_CurCheckPoint.index == 0)
-            {
-                CinemachineMgr.S.OnSelectNextVirtualCamera();
-            }
+            //if (m_CurCheckPoint.index == 0)
+            //{
+            //    CinemachineMgr.S.OnSelectNextVirtualCamera();
+            //}
         }
     }
 
